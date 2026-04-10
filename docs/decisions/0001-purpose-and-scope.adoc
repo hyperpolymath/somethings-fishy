@@ -1,0 +1,141 @@
+// SPDX-License-Identifier: PMPL-1.0-or-later
+// Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+= ADR 0001: Purpose and Scope — Agent Autopsy
+:toc:
+:icons: font
+
+Status: proposed
+Date: 2026-04-10
+
+== Context
+
+Bots increasingly operate inside repositories through human accounts. They rarely
+declare themselves. The estate needs a way to look at a repo — or a live estate —
+and work out who (which agent, or a human) has been at the keyboard, what they
+did, and what residues they left.
+
+Off-the-shelf "AI-generated code detectors" are shallow heuristics over diffs.
+They miss sequencing, recurring failure modes, cross-file calling cards, and the
+specific signatures of individual models. They also cannot learn from ground
+truth marked by a domain expert.
+
+== Decision
+
+`somethings-robofishy` is an **agent-autopsy forensic tool**, not a general repo
+linter or RSR-compliance checker. Its job is:
+
+. Given a target (a repo, a file set, or an entire estate), identify which
+  agents (and/or humans) have edited it, over which windows, with what recurring
+  failure modes, residues, and calling cards.
+. Accumulate evidence into a VeriSimDB-backed **autopsy database** that grows
+  over time, improving resolution on each known agent's fingerprint.
+. Report findings in forms useful downstream: vendor-addressable incident
+  reports, developer briefings, and candidate CI/CD rules.
+
+== Hard invariants (v1)
+
+These constrain every design decision. Violating any of them is a bug.
+
+. **Touch nothing.** The tool never writes to, or mutates, the subject. Targets
+  are **cloned** to an isolation area and all analysis happens on the clone.
+. **Single write channel.** The tool itself has no direct write path to any
+  repo, issue tracker, or external system. All outbound changes flow through
+  **feedback-o-tron**, which is the only component permitted to emit
+  side-effects.
+. **Bundled scanners, not reimplemented.** `panic-attacker` travels with the
+  tool and is invoked as an existing binary; we do not re-implement its
+  checks.
+. **Safe to set loose live.** It must be defensible to point the tool at a
+  production estate and let it run unattended. No destructive operations, no
+  automated remediation in v1.
+
+== Non-goals (v1)
+
+* No reversibility or trusted reconstruction (deferred to v2).
+* No automated remediation, auto-fix, or auto-PR generation. Any proposed
+  change is routed through feedback-o-tron for human adjudication.
+* No "is this AI-generated?" human-detection framing. The tool is agnostic
+  about who typed; it characterises *what was done* and matches patterns
+  against known agents.
+
+== Inputs
+
+* A target spec: one repo URL, a directory, a file list, or an estate manifest.
+* Optional **crime-scene declarations** — user-marked edit ranges, commits, or
+  file regions tagged "this is the pattern I want you to learn from". These
+  are the supervised signal; the tool is not rule-based.
+* The **agent reference corpus** — a shared VeriSimDB dataset of known agents
+  built from public sources (LM Arena, model cards, articles, design specs,
+  published benchmarks, observed behaviour in prior investigations).
+
+== Signals (non-exhaustive)
+
+Shallow signals that must never be missed:
+
+* Presence of `CLAUDE.md`, `AGENTS.md`, `.cursor/`, `.aider*`, `GEMINI.md`,
+  `copilot-instructions.md`, and similar agent-addressed files.
+* Commit trailers: `Co-Authored-By: Claude …`, GitHub-app authors, known bot
+  email suffixes.
+* Banned-pattern sprays: `believe_me`, `assert_total`, `sorry`, `Admitted`,
+  `unsafeCoerce`, `Obj.magic`, `--no-verify`.
+
+Deeper signals the forensic engine must extract:
+
+* Failure-type distribution across commits (compilation-error-fix loops,
+  test-disable patterns, stub insertion, TODO density, half-finished
+  abstractions).
+* Edit sequencing — the shape of a session's diff trajectory over time.
+* Residues: orphaned imports, abandoned scaffolding, half-deleted functions,
+  renamed-but-not-cleaned symbols, back-compat shims for code that was never
+  shipped.
+* Phrasing and diction in commit messages, comments, and prose diffs.
+* Diff shape statistics: hunk size, fan-out across files, reordering patterns,
+  whitespace habits.
+* Timing: burst structure, wall-clock cadence, cross-timezone signatures.
+* Cross-file calling cards — the same stylistic tell appearing in unrelated
+  files in the same window.
+
+== Outputs
+
+. A forensic report, human-readable and A2ML-structured, naming the candidate
+  agents, their activity levels, timelines, and confidence scores.
+. Per-agent **calling-card profiles** — distinctive patterns extracted from
+  observed activity, written back to the reference corpus so the next run has
+  higher resolution.
+. Candidate CI/CD rules (as suggestions routed through feedback-o-tron) that
+  would have caught the damage.
+. Vendor- and developer-facing report variants.
+
+== Architecture sketch (subject to confirmation)
+
+* Core engine: Rust/SPARK (per 2026-04-10 terminology rule).
+* ABI: Idris2; FFI: Zig.
+* Storage: VeriSimDB. Two logical databases — the shared **agent reference
+  corpus**, and a **per-investigation evidence store** — decision on whether
+  to collapse them into one instance is open.
+* Distribution: Chapeliser, used to parallelise per-target clone-and-scan
+  across an estate.
+* Bundled tools: `panic-attacker`, invoked as a subprocess; other scanners
+  added as needed.
+* Write channel: `feedback-o-tron` as the sole egress for any proposed change.
+* Clone isolation area: outside `/var/mnt/eclipse/repos/`, on the Eclipse
+  drive (exact path TBD).
+
+== Open questions
+
+. Single VeriSimDB instance with two schemas, or two instances?
+. Clone isolation root directory (e.g. `/mnt/eclipse/robofishy-scenes/`).
+. Where does the agent reference corpus live, and who curates it?
+. How are crime-scene declarations expressed (A2ML, CLI flags, interactive)?
+. Does the tool expose a library API for integration into other estate tools,
+  or is it CLI-only in v1?
+
+== Consequences
+
+* The tool becomes the estate's primary *observational* instrument for bot
+  behaviour. This is high-value but creates a dependency: if the agent
+  reference corpus rots, the tool's resolution decays.
+* The "writes only via feedback-o-tron" rule forces a clean separation between
+  detection and action, which will simplify later safety arguments.
+* Chapeliser integration means estate-scale scans are tractable, but adds a
+  Chapel toolchain dependency to any machine running a full estate sweep.

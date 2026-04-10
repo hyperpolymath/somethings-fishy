@@ -1,68 +1,56 @@
 // SPDX-License-Identifier: PMPL-1.0-or-later
-= RSR Template Repo - Explainme
+// Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+= Something's Robofishy — Explainme
 :toc:
 :icons: font
 
-This file explains how the key template claims map to real files.
+This file maps the project's claims to real files, and is honest about which
+claims are currently aspirational. The full design is in
+`docs/decisions/0001-purpose-and-scope.adoc`.
+
+== What this project claims to be
+
+An agent-autopsy forensic tool. Point it at a repo, a file set, or an estate,
+and it reconstructs which agents (and/or humans) have been editing there, what
+they did, and what residues they left. Evidence accumulates in VeriSimDB.
+
+It is **not**: a repo linter, an RSR-compliance checker, an AI-generated-code
+detector, or an auto-remediation tool.
+
+== Hard invariants (v1)
+
+[cols="1,3", options="header"]
+|===
+| Invariant                              | Where enforced
+| Touch nothing — clone-first analysis   | Engine must refuse targets it has not cloned into the isolation area (pending)
+| Writes only via feedback-o-tron        | No direct output sinks compiled into the core (pending)
+| Bundled scanners, not reimplemented    | `panic-attacker` invoked as a subprocess (pending)
+| Safe to set loose live                 | No destructive code paths; reviewed before every release (pending)
+|===
+
+Every "pending" above is a v1 acceptance criterion, not a nice-to-have.
+
+== Status
+
+This repository was initialised from `rsr-template-repo` on 2026-04-10. As of
+the first commit, the only project-specific content is:
+
+* `docs/decisions/0001-purpose-and-scope.adoc` — the design ADR.
+* This file.
+
+All template scaffolding (Justfile, CI workflows, OpenSSF compliance, session
+dispatch, etc.) is inherited from `rsr-template-repo` and explained by the
+template's own documentation, not duplicated here.
 
 == Central Session Protocol Authority
 
-Claim:
-Session protocols are centrally maintained and not duplicated in this template.
+The session dispatcher (`session/dispatch.sh`) is inherited from the template
+and resolves canonical commands against the central standards repo. Nothing in
+this project overrides that behaviour.
 
-How this is implemented:
+== Template tokens
 
-* The local dispatcher (`session/dispatch.sh`) maps canonical commands to central
-  protocol paths in `standards/session-management-standards`.
-* Local files (`session/custom-checks.k9`, `session/local-hooks.sh`,
-  `coordination.k9`) are integration-only.
-
-Caveat:
-
-* If `SESSION_STANDARDS_DIR` is unset and no adjacent standards checkout exists,
-  the dispatcher records the command but cannot resolve central checklist paths.
-
-== Canonical Command Surface
-
-Claim:
-Template bindings align to one canonical command model.
-
-How this is implemented:
-
-* `Justfile` provides thin aliases (`intake-repo`, `checkpoint-change`,
-  `verify-maintenance`, `verify-substantial`, `verify-release`, `close-planned`,
-  `close-urgent`, `recover-repo`, `handover-*`).
-* Every alias calls `session/dispatch.sh` with canonical verb-object pairs.
-
-Caveat:
-
-* Recipes are wrappers only. They do not replace protocol content from
-  the central standards repo.
-
-== Runtime State Is Local
-
-Claim:
-Session state is per-repository runtime output, not standards text.
-
-How this is implemented:
-
-* `session/dispatch.sh` writes command and continuity-core capture stubs to
-  `.session/LAST-CANONICAL-COMMAND.md` in the target repository path.
-
-Caveat:
-
-* Runtime files are intentionally lightweight and require human/agent completion.
-
-== Template Token Policy
-
-Claim:
-Placeholders are explicit template content until initialization.
-
-How this is implemented:
-
-* `README.adoc` and bootstrap recipes keep `{{TOKEN}}` placeholders visible.
-* `just init` performs token replacement.
-
-Caveat:
-
-* Uninitialized placeholders must not be treated as project-specific truth.
+A small number of template placeholders were not resolved by `just init`
+(known template gap — affects 18 files including `.github/settings.yml`,
+anchor files, and template standards audits). These will be cleared in a
+follow-up pass and are tracked alongside other initialisation hygiene.
