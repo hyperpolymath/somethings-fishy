@@ -18,7 +18,13 @@ permissions:
 jobs:
   trigger-boj:
     runs-on: ubuntu-latest
-    if: ${{ vars.BOJ_SERVER_URL != '' || secrets.BOJ_SERVER_URL != '' }}
+    # Historical note: this job previously carried an
+    # `if: ${{ vars.BOJ_SERVER_URL != '' || secrets.BOJ_SERVER_URL != '' }}`
+    # gate, but GitHub Actions does not permit `secrets.*` references
+    # inside job-level `if:` expressions, which caused the whole workflow
+    # to be rejected with a "workflow file issue". The step itself
+    # already bails out cleanly when BOJ_URL is unset, so the guard is
+    # redundant — we just let the job spin up every time and exit early.
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2

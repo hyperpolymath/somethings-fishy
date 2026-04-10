@@ -38,7 +38,32 @@ concurrency:
 
 jobs:
   # ─── End-to-End Tests ──────────────────────────────────────────────
-  # Uncomment ONE of the following e2e job blocks matching your stack.
+  # Concrete job for this repo: cargo build + optional tests/e2e.sh.
+  # The remaining blocks below are template examples kept for reference
+  # when the E2E story grows.
+  e2e:
+    name: E2E — Full Pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: hashFiles('Cargo.toml') != ''
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@4be9e76fd7c4901c61fb841f559994984270fce7 # stable
+      - name: Cache cargo registry and build
+        uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
+      - name: Cargo build (release)
+        run: cargo build --release
+      - name: Run tests/e2e.sh if present
+        run: |
+          if [ -x tests/e2e.sh ]; then
+            bash tests/e2e.sh
+          else
+            echo "tests/e2e.sh not executable or absent — skipping"
+          fi
+
+  # ─── Legacy template examples (commented out) ─────────────────────
 
   ## === RUST E2E ===
   # e2e:
