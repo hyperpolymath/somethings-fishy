@@ -49,7 +49,7 @@ chrono = { version = "0.4", default-features = false, features = ["clock"] }
 
 # SHA-256 for file-identity hashing in the report. Used to distinguish
 # "this file is the stock CLAUDE.md template" from "this file was edited".
-sha2 = "0.10"
+sha2 = "0.11"
 hex = "0.4"
 
 # Structured-output parsing for the panic-attack subprocess scanner.
