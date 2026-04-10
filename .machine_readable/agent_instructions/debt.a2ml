@@ -7,6 +7,8 @@
 #
 # Reference: ADR-002 in standards/agentic-a2ml/docs/
 
+name = "somethings-fishy"
+
 [metadata]
 version = "1.0.0"
 last-updated = "2026-04-10"

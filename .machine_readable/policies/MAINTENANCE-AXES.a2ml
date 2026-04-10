@@ -3,6 +3,8 @@
 #
 # Canonical maintenance governance model
 
+name = "somethings-fishy"
+
 [metadata]
 version = "1.0.0"
 last-updated = "2026-04-10"

@@ -93,8 +93,17 @@ jobs:
           FLEET_DIR="/tmp/gitbot-fleet-$$"
           git clone https://github.com/hyperpolymath/gitbot-fleet.git "$FLEET_DIR"
 
-          # Run submission script
-          bash "$FLEET_DIR/scripts/submit-finding.sh" hypatia-findings.json
+          # Pass an absolute path -- the submit-finding.sh script cd's
+          # into its own working tree, so a relative path would resolve
+          # against the wrong directory (that's how this step used to
+          # fail with "jq: Could not open hypatia-findings.json").
+          FINDINGS_FILE="$GITHUB_WORKSPACE/hypatia-findings.json"
+          if [ ! -f "$FINDINGS_FILE" ]; then
+            echo "::warning::Hypatia emitted a nonzero findings_count but no hypatia-findings.json on disk -- skipping submission"
+            rm -rf "$FLEET_DIR"
+            exit 0
+          fi
+          bash "$FLEET_DIR/scripts/submit-finding.sh" "$FINDINGS_FILE"
 
           # Cleanup
           rm -rf "$FLEET_DIR"

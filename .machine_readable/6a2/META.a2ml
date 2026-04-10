@@ -4,6 +4,8 @@
 # META.a2ml — Project meta-level information
 # Architecture decisions, design rationale, governance.
 
+name = "somethings-fishy"
+
 [metadata]
 version = "0.1.0"
 last-updated = "2026-04-10"

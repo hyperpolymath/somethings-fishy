@@ -4,6 +4,8 @@
 # AGENTIC.a2ml — AI agent constraints and capabilities
 # Defines what AI agents can and cannot do in this repository.
 
+name = "somethings-fishy"
+
 [metadata]
 version = "0.1.0"
 last-updated = "2026-04-10"

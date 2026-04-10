@@ -2,6 +2,8 @@
 # Mustfile — Physical state contract
 # Author: Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 
+name = "somethings-fishy"
+
 @abstract:
 What MUST be true about this repository's files and configuration.
 These are hard requirements — CI fails if any check fails.

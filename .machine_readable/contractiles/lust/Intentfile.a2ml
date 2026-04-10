@@ -2,6 +2,8 @@
 # Intentfile — Design intent and aspirations
 # Author: Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 
+name = "somethings-fishy"
+
 @abstract:
 What this repository INTENDS to become. Aspirational goals and
 design philosophy — not current state, but target state.

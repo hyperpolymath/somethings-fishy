@@ -6,6 +6,8 @@
 # Copy this file to .machine_readable/contractiles/lust/Intentfile.a2ml
 # and fill in your project-specific checks.
 
+name = "somethings-fishy"
+
 @abstract:
 [Your project's LUST contract goes here]
 @end

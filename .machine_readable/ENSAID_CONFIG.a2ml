@@ -14,6 +14,8 @@
 # ─────────────────────────────────────────────────────────────────
 # [ensaid] — Core eNSAID identity and version
 # ─────────────────────────────────────────────────────────────────
+name = "somethings-fishy"
+
 [ensaid]
 version = "1.0.0"
 tool = "panll"

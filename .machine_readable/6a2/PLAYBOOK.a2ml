@@ -4,6 +4,8 @@
 # PLAYBOOK.a2ml — Operational playbook
 # Runbooks, incident response, deployment procedures.
 
+name = "somethings-fishy"
+
 [metadata]
 version = "0.1.0"
 last-updated = "2026-04-10"

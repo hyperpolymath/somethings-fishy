@@ -2,6 +2,8 @@
 # Trustfile — Integrity and provenance verification
 # Author: Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 
+name = "somethings-fishy"
+
 @abstract:
 Integrity invariants for this repository. These verify that the repo
 has not been tampered with, secrets are not leaked, and provenance

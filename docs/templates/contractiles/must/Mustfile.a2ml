@@ -6,6 +6,8 @@
 # Copy this file to .machine_readable/contractiles/must/Mustfile.a2ml
 # and fill in your project-specific checks.
 
+name = "somethings-fishy"
+
 @abstract:
 [Your project's MUST contract goes here]
 @end

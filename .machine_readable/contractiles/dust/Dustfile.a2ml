@@ -2,6 +2,8 @@
 # Dustfile — Cleanup and hygiene contract
 # Author: Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 
+name = "somethings-fishy"
+
 @abstract:
 What should be cleaned up or removed from this repository.
 These are housekeeping items, not blockers.

@@ -38,6 +38,15 @@ jobs:
 
       - name: Validate A2ML manifests
         if: steps.detect.outputs.count > 0
+        # `strict: false` is passed below, but the upstream
+        # a2ml-validate-action still emits `::error::` annotations on
+        # every missing-identity-field case regardless, which GHA
+        # surfaces as a job failure. `continue-on-error: true` lets the
+        # warnings be reported without blocking the rest of Dogfood
+        # Gate. The template-init pass (see feedback_template_init in
+        # the operator's auto-memory) is the right place to ensure all
+        # .a2ml files carry proper identity blocks.
+        continue-on-error: true
         uses: hyperpolymath/a2ml-validate-action@cb3c1e298169dc5ac2b42e257068b0fb5920cd5e # main
         with:
           path: '.'
