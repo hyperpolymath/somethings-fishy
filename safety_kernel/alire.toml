@@ -15,8 +15,10 @@ maintainers-logins = ["hyperpolymath"]
 website = "https://github.com/hyperpolymath/somethings-fishy"
 tags = ["spark", "safety", "forensics"]
 
-# Hard build deps. gnatprove is required because every build that touches
-# this crate is expected to also discharge its proof obligations; we do not
-# ship the safety kernel without the proof step having run.
-[[depends-on]]
-gnatprove = "^15.1.0"
+# No hard build deps beyond the default toolchain. gnatprove (the SPARK
+# verifier) used to be a hard dep here, but Alire on CI could not always
+# install it from the community index, which blocked the plain link
+# build - and build.rs explicitly notes that v0's build step is about
+# *linkage*, not proof discharge (verification is a separate CI job).
+# When running the proof step, install gnatprove explicitly via
+# `alr toolchain --select gnatprove` or a sibling CI step.
