@@ -104,9 +104,27 @@ fn render(
                 }
             }
             out.push_str(&format!(
-                "        (message \"{}\"))\n",
+                "        (message \"{}\")\n",
                 escape(&f.message)
             ));
+            // Feature-vector emission per ADR 0002: every finding
+            // exposes the scalar features its scanner populated, so
+            // v1's classifier can ingest reports without re-walking
+            // the target. BTreeMap iteration is deterministic, which
+            // is load-bearing for test-retest reliability.
+            if f.features.is_empty() {
+                out.push_str("        (features))\n");
+            } else {
+                out.push_str("        (features\n");
+                for (key, value) in &f.features {
+                    out.push_str(&format!(
+                        "          ({} {})\n",
+                        escape_atom(key),
+                        format_feature(*value),
+                    ));
+                }
+                out.push_str("        ))\n");
+            }
         }
         out.push_str("    )\n");
     }
@@ -121,6 +139,32 @@ fn render(
     );
     out.push_str(")\n");
     out
+}
+
+/// Render a feature-vector scalar as an A2ML atom. Integer-valued
+/// counts are emitted without a decimal point (they round-trip through
+/// f64 exactly up to 2^53), which keeps the common case readable.
+fn format_feature(value: f64) -> String {
+    if value.is_finite() && value.fract() == 0.0 && value.abs() < 1e15 {
+        format!("{}", value as i64)
+    } else {
+        format!("{value}")
+    }
+}
+
+/// Bare S-expression atom (no quoting). Used for feature keys, which
+/// are controlled strings from the scanners themselves. We still sanity-
+/// check them: anything containing whitespace or parens is double-quoted
+/// as a fallback.
+fn escape_atom(s: &str) -> String {
+    if s.is_empty()
+        || s.chars()
+            .any(|c| c.is_whitespace() || matches!(c, '(' | ')' | '"' | '\\'))
+    {
+        format!("\"{}\"", escape(s))
+    } else {
+        s.to_string()
+    }
 }
 
 /// Quote a string for embedding in a double-quoted S-expression atom.

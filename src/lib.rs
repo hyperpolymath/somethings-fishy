@@ -34,6 +34,7 @@ pub mod finding;
 pub mod report;
 pub mod safe_io;
 pub mod scan;
+pub mod scanners;
 pub mod scene;
 
 /// Library version, surfaced in emitted reports for test-retest reliability.
