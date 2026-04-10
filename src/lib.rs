@@ -29,12 +29,19 @@
 //! See `ROADMAP.adoc` for the capability ladder and `docs/decisions/` for
 //! the architectural decisions behind this crate.
 
+/// Git subprocess wrapper used to materialise a target inside a scene.
 pub mod clone;
+/// [`finding::Finding`] and [`finding::FindingSet`] types with stable content-addressed IDs.
 pub mod finding;
+/// S-expression A2ML report emitter.
 pub mod report;
+/// SPARK-verified safety kernel: the single sanctioned write channel.
 pub mod safe_io;
+/// v0 shallow-signal scanner orchestrator ([`scan::run_all`]).
 pub mod scan;
+/// Individual scanner implementations (`agent_files`, `commit_trailers`, ...).
 pub mod scanners;
+/// Isolation-area (scene) lifecycle.
 pub mod scene;
 
 /// Library version, surfaced in emitted reports for test-retest reliability.

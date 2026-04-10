@@ -77,9 +77,14 @@ const PATTERNS: &[Pattern] = &[
     // Dynamic string evaluation.
     Pattern { needle: "eval(",          rule: "eval_call",          feature: "eval_call",     severity: Severity::Notice },
     Pattern { needle: "exec(",          rule: "exec_call",          feature: "exec_call",     severity: Severity::Notice },
+    // Broader linter/type-checker silencers.
+    Pattern { needle: "eslint-disable-next-line", rule: "eslint_disable", feature: "eslint_disable", severity: Severity::Notice },
+    Pattern { needle: "# pylint: disable",        rule: "pylint_disable", feature: "pylint_disable", severity: Severity::Notice },
+    Pattern { needle: "@SuppressWarnings",        rule: "java_suppress",  feature: "java_suppress",  severity: Severity::Notice },
     // Agent tells in comments — useful base-rate signal.
     Pattern { needle: "TODO(claude)",   rule: "todo_claude",        feature: "todo_claude",   severity: Severity::Notice },
     Pattern { needle: "TODO(copilot)",  rule: "todo_copilot",       feature: "todo_copilot",  severity: Severity::Notice },
+    Pattern { needle: "TODO(ai)",       rule: "todo_ai",            feature: "todo_ai",       severity: Severity::Notice },
     Pattern { needle: "XXX AI:",        rule: "xxx_ai",             feature: "xxx_ai",        severity: Severity::Notice },
 ];
 

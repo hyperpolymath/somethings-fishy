@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: PMPL-1.0-or-later
 // Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
-//
+
+//! Isolation-directory lifecycle.
+//!
+//! A [`Scene`] owns a single investigation's isolation area: the clone
+//! of the target, the emitted report, any evidence artefacts, and (in
+//! later versions) a per-investigation VeriSimDB store. Nothing ever
+//! lives outside a scene directory.
+
 // Scene directory lifecycle.
 //
 // A "scene" is the isolation area for one investigation. It owns the clone

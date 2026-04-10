@@ -12,9 +12,10 @@
 
 use std::fs;
 use std::path::Path;
+use std::process::Command;
 
 use robofishy::finding::{FindingSet, Location};
-use robofishy::scanners::{agent_files, banned_patterns};
+use robofishy::scanners::{agent_files, banned_patterns, commit_trailers, panic_attack};
 
 fn write(dir: &Path, rel: &str, body: &str) {
     let full = dir.join(rel);
@@ -105,6 +106,130 @@ fn banned_patterns_detects_unsafe_coerce_and_ts_ignore() {
         .copied()
         .unwrap_or(0.0);
     assert!(total >= 2.0, "expected >= 2 banned hits, got {total}");
+}
+
+/// Initialise a fresh git repo with a known identity in `dir` and
+/// return Ok(()) if the subprocess chain works. Used by the
+/// commit_trailers tests.
+fn git_init(dir: &Path) {
+    let run = |args: &[&str]| {
+        let status = Command::new("git")
+            .args(args)
+            .current_dir(dir)
+            .status()
+            .expect("spawn git");
+        assert!(status.success(), "git {args:?} failed");
+    };
+    run(&["init", "--quiet", "--initial-branch=main"]);
+    run(&["config", "user.name", "Test Harness"]);
+    run(&["config", "user.email", "test@example.invalid"]);
+    run(&["config", "commit.gpgsign", "false"]);
+    run(&["config", "tag.gpgsign", "false"]);
+}
+
+fn git_commit(dir: &Path, message: &str) {
+    let status = Command::new("git")
+        .args(["commit", "--quiet", "--allow-empty", "-m", message])
+        .current_dir(dir)
+        .status()
+        .expect("spawn git commit");
+    assert!(status.success(), "git commit failed");
+}
+
+#[test]
+fn commit_trailers_detects_claude_coauthor_and_copilot_actor() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let root = tmp.path();
+    git_init(root);
+
+    git_commit(root, "initial: baseline commit");
+    git_commit(
+        root,
+        "feat: add thing\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+    );
+    git_commit(
+        root,
+        "chore(deps): bump foo\n\nSigned-off-by: copilot[bot] <198982749+Copilot@users.noreply.github.com>",
+    );
+
+    let mut set = FindingSet::new();
+    commit_trailers::run(root, &mut set).expect("commit_trailers run");
+
+    let findings: Vec<_> = set
+        .groups()
+        .filter(|(name, _)| **name == commit_trailers::NAME)
+        .flat_map(|(_, g)| g.iter())
+        .collect();
+
+    let rules: Vec<_> = findings.iter().map(|f| f.rule).collect();
+    assert!(
+        rules.contains(&"coauthor_claude") || rules.contains(&"anthropic_noreply"),
+        "expected a Claude signature rule: {rules:?}"
+    );
+    assert!(
+        rules.contains(&"copilot_email"),
+        "expected copilot_email rule: {rules:?}"
+    );
+
+    let summary = findings
+        .iter()
+        .find(|f| f.rule == "summary")
+        .expect("summary finding");
+    let seen = summary
+        .features
+        .get("commit_trailers.commits_seen")
+        .copied()
+        .unwrap_or(0.0);
+    let flagged = summary
+        .features
+        .get("commit_trailers.commits_flagged")
+        .copied()
+        .unwrap_or(0.0);
+    assert_eq!(seen, 3.0, "expected 3 commits, got {seen}");
+    assert_eq!(flagged, 2.0, "expected 2 flagged commits, got {flagged}");
+}
+
+#[test]
+fn commit_trailers_emits_info_when_not_a_git_repo() {
+    // A plain directory with no .git tree exercises the graceful fallback.
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let mut set = FindingSet::new();
+    commit_trailers::run(tmp.path(), &mut set).expect("commit_trailers run");
+
+    let rules: Vec<_> = set
+        .groups()
+        .filter(|(name, _)| **name == commit_trailers::NAME)
+        .flat_map(|(_, g)| g.iter())
+        .map(|f| f.rule)
+        .collect();
+    assert!(
+        rules.contains(&"not_a_git_repo"),
+        "expected not_a_git_repo: {rules:?}"
+    );
+}
+
+#[test]
+fn panic_attack_skip_mode_emits_stable_dimensions() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let mut set = FindingSet::new();
+    panic_attack::run(tmp.path(), /* skip */ true, &mut set)
+        .expect("panic_attack skip run");
+
+    let finding = set
+        .groups()
+        .filter(|(name, _)| **name == panic_attack::NAME)
+        .flat_map(|(_, g)| g.iter())
+        .find(|f| f.rule == "skipped")
+        .expect("skipped finding");
+    assert_eq!(
+        finding.features.get("panic_attack.invoked").copied(),
+        Some(0.0)
+    );
+    assert_eq!(
+        finding.features.get("panic_attack.skipped").copied(),
+        Some(1.0)
+    );
+    assert!(matches!(finding.location, Location::Repo));
 }
 
 #[test]

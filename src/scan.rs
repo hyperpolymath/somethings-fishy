@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: PMPL-1.0-or-later
 // Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
-//
+
+//! v0 shallow-signal scanner orchestrator.
+//!
+//! The public entry point is [`run_all`], which runs the four v0
+//! scanners against a cloned target and returns a [`crate::finding::FindingSet`].
+
 // Scanner orchestrator.
 //
 // v0 runs four shallow-signal scanners in a fixed order against a

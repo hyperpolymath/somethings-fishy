@@ -1,23 +1,5 @@
 # Security Policy
 
-<!-- 
-============================================================================
-TEMPLATE INSTRUCTIONS (delete this block before publishing)
-============================================================================
-Replace all {{PLACEHOLDER}} values with your information:
-  Something's [Robo] Fishy     - Your project name
-  hyperpolymath            - GitHub username or org (e.g., hyperpolymath)
-  somethings-fishy             - Repository name
-  jonathan.jewell@open.ac.uk   - Security contact email
-  {{PGP_FINGERPRINT}}  - Your PGP key fingerprint (40 chars, no spaces)
-  {{PGP_KEY_URL}}      - URL to your public PGP key
-  https://github.com/hyperpolymath/somethings-fishy          - Your website/domain
-  2026     - Current year for copyright
-
-Optional: Remove sections that don't apply (e.g., PGP if you don't use it)
-============================================================================
--->
-
 We take security seriously. We appreciate your efforts to responsibly disclose vulnerabilities and will make every effort to acknowledge your contributions.
 
 ## Table of Contents
@@ -52,26 +34,12 @@ This method ensures:
 - Coordinated disclosure tooling
 - Automatic credit when the advisory is published
 
-### Alternative: Encrypted Email
+### Alternative: Email
 
-If you cannot use GitHub Security Advisories, you may email us directly:
-
-| | |
-|---|---|
-| **Email** | jonathan.jewell@open.ac.uk |
-| **PGP Key** | [Download Public Key]({{PGP_KEY_URL}}) |
-| **Fingerprint** | `{{PGP_FINGERPRINT}}` |
-
-```bash
-# Import our PGP key
-curl -sSL {{PGP_KEY_URL}} | gpg --import
-
-# Verify fingerprint
-gpg --fingerprint jonathan.jewell@open.ac.uk
-
-# Encrypt your report
-gpg --armor --encrypt --recipient jonathan.jewell@open.ac.uk report.txt
-```
+If you cannot use GitHub Security Advisories, you may email us directly at
+`jonathan.jewell@open.ac.uk`. GitHub Security Advisories are preferred because
+they provide end-to-end encryption and a private collaboration space; plain
+email should be treated accordingly.
 
 > **⚠️ Important:** Do not report security vulnerabilities through public GitHub issues, pull requests, discussions, or social media.
 
@@ -370,7 +338,6 @@ When using Something's [Robo] Fishy, we recommend:
 
 ## Additional Resources
 
-- [Our PGP Public Key]({{PGP_KEY_URL}})
 - [Security Advisories](https://github.com/hyperpolymath/somethings-fishy/security/advisories)
 - [Changelog](CHANGELOG.md)
 - [Contributing Guidelines](CONTRIBUTING.md)

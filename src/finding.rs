@@ -81,9 +81,17 @@ pub enum Location {
     /// Applies to the target as a whole, not any particular file.
     Repo,
     /// A single file, optionally with a specific line.
-    File { path: PathBuf, line: Option<u32> },
+    File {
+        /// Repo-relative path of the file the finding refers to.
+        path: PathBuf,
+        /// Optional 1-indexed line number within `path`.
+        line: Option<u32>,
+    },
     /// A commit in the history.
-    Commit { sha: String },
+    Commit {
+        /// Full commit SHA (40 hex chars).
+        sha: String,
+    },
 }
 
 impl Location {

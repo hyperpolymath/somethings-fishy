@@ -18,11 +18,14 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    # This crate is Rust-only. CodeQL does not yet support Rust, so we
+    # scan GitHub Actions workflow files only. (See CLAUDE.md: "Rust not
+    # supported by CodeQL — use ['actions'] for workflow scanning only".)
     strategy:
       fail-fast: false
       matrix:
         include:
-          - language: javascript-typescript
+          - language: actions
             build-mode: none
 
     steps:

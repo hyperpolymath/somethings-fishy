@@ -4,5 +4,5 @@
   (version "1.0.0")
   (name "somethings-fishy")
   (type "library")
-  (purpose "{{REPO_DESCRIPTION}}")
+  (purpose "Agent-autopsy forensic triage — reverse-constructs which agents edited a repo")
   (related-projects))

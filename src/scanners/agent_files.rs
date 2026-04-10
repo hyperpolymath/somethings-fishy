@@ -78,6 +78,12 @@ const RULES: &[Rule] = &[
     // Continue.dev
     Rule { path: ".continuerules",                  rule: "continue_rules",        agent: "continue" },
     Rule { path: ".continue/",                      rule: "continue_dir",          agent: "continue" },
+    // Zed IDE (first-party AI integration)
+    Rule { path: ".zed/",                           rule: "zed_dir",               agent: "zed"      },
+    // Devin (Cognition AI)
+    Rule { path: ".devin/",                         rule: "devin_dir",             agent: "devin"    },
+    // GitHub Copilot prompt repository (newer surface)
+    Rule { path: ".github/prompts/",                rule: "copilot_prompts_dir",   agent: "copilot"  },
     // Generic agent manifest used by newer tooling
     Rule { path: "AGENTS.md",                       rule: "agents_md",             agent: "generic"  },
     Rule { path: "AGENT.md",                        rule: "agent_md",              agent: "generic"  },

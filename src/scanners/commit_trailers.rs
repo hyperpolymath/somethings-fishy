@@ -75,6 +75,14 @@ const SIGNATURES: &[Signature] = &[
     Signature { needle: "aider (gpt-",                  rule: "aider_gpt_marker",    agent: "aider"     },
     // Windsurf / Cascade
     Signature { needle: "generated with windsurf",      rule: "generated_windsurf",  agent: "windsurf"  },
+    // Devin
+    Signature { needle: "co-authored-by: devin",        rule: "coauthor_devin",      agent: "devin"     },
+    Signature { needle: "generated with devin",         rule: "generated_devin",     agent: "devin"     },
+    // Zed agentic (when committing via Zed's assistant flows)
+    Signature { needle: "co-authored-by: zed",          rule: "coauthor_zed",        agent: "zed"       },
+    // Alternative casings / phrasings that agents emit in the wild.
+    Signature { needle: "generated-by: claude",         rule: "generated_by_claude", agent: "claude"    },
+    Signature { needle: "ai-generated",                 rule: "ai_generated_marker", agent: "generic"   },
     // Generic bot actors — noisy but useful as a baseline rate
     Signature { needle: "dependabot[bot]",              rule: "dependabot_actor",    agent: "bot_other" },
     Signature { needle: "renovate[bot]",                rule: "renovate_actor",      agent: "bot_other" },
