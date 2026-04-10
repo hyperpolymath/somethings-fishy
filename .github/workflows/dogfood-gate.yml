@@ -256,28 +256,37 @@ jobs:
 
           echo "has_manifest=true" >> "$GITHUB_OUTPUT"
 
-          # Validate TOML structure using Python 3.11+ tomllib
-          python3 -c "
-import tomllib, sys
-with open('eclexiaiser.toml', 'rb') as f:
-    data = tomllib.load(f)
-project = data.get('project', {})
-if not project.get('name', '').strip():
-    print('ERROR: project.name is required', file=sys.stderr)
-    sys.exit(1)
-functions = data.get('functions', [])
-if not functions:
-    print('ERROR: at least one [[functions]] entry is required', file=sys.stderr)
-    sys.exit(1)
-for fn in functions:
-    if not fn.get('name', '').strip():
-        print('ERROR: function name cannot be empty', file=sys.stderr)
-        sys.exit(1)
-    if not fn.get('source', '').strip():
-        print(f'ERROR: function {fn[\"name\"]} has no source path', file=sys.stderr)
-        sys.exit(1)
-print(f'Valid: {project[\"name\"]} ({len(functions)} function(s))')
-" || {
+          # Validate TOML structure using Python 3.11+ tomllib. Script
+          # is written to a tmpfile rather than passed via `python3 -c`
+          # so the whole workflow's YAML block scalar stays parsable —
+          # the previous form straddled unindented lines and broke
+          # `yaml.safe_load` across the whole file.
+          cat > /tmp/validate_eclexiaiser.py <<'PY'
+          import tomllib, sys
+          with open('eclexiaiser.toml', 'rb') as f:
+              data = tomllib.load(f)
+          project = data.get('project', {})
+          if not project.get('name', '').strip():
+              print('ERROR: project.name is required', file=sys.stderr)
+              sys.exit(1)
+          functions = data.get('functions', [])
+          if not functions:
+              print('ERROR: at least one [[functions]] entry is required', file=sys.stderr)
+              sys.exit(1)
+          for fn in functions:
+              if not fn.get('name', '').strip():
+                  print('ERROR: function name cannot be empty', file=sys.stderr)
+                  sys.exit(1)
+              if not fn.get('source', '').strip():
+                  print(f"ERROR: function {fn['name']} has no source path", file=sys.stderr)
+                  sys.exit(1)
+          print(f"Valid: {project['name']} ({len(functions)} function(s))")
+          PY
+          # Strip the 10-space YAML indent so Python sees a column-0
+          # module. `sed` is used rather than `<<-PY` because YAML uses
+          # spaces for indentation and `<<-` only strips leading tabs.
+          sed -i 's/^          //' /tmp/validate_eclexiaiser.py
+          python3 /tmp/validate_eclexiaiser.py || {
             echo "::error file=eclexiaiser.toml::Invalid eclexiaiser.toml — see step output for details"
             exit 1
           }
