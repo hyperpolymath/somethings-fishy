@@ -14,6 +14,14 @@ project Safety_Kernel is
      external ("SAFETY_KERNEL_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
    for Library_Kind use Library_Type;
 
+   --  Standalone library: gnatbind generates safety_kernelinit /
+   --  safety_kernelfinal entry points that wrap Ada elaboration for
+   --  non-Ada callers. Rust calls safety_kernelinit() once at startup
+   --  before any Ada code runs.
+   for Library_Interface use ("Robofishy_Write_Guard", "Robofishy_IO", "Robofishy_C_API");
+   for Library_Standalone use "encapsulated";
+   for Library_Auto_Init use "false";
+
    package Compiler is
       for Default_Switches ("Ada") use Safety_Kernel_Config.Ada_Compiler_Switches;
    end Compiler;

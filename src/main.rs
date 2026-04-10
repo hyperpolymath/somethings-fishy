@@ -20,7 +20,7 @@ use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
-use robofishy::{report, scan, scene};
+use robofishy::{report, safe_io, scan, scene};
 
 #[derive(Parser, Debug)]
 #[command(
@@ -72,6 +72,12 @@ fn run_scan(
     scene_root: Option<PathBuf>,
     skip_panic_attack: bool,
 ) -> Result<()> {
+    // Initialise the SPARK-verified safety kernel. This runs GNAT
+    // elaboration and gives us the single write channel for the
+    // remainder of the run. Dropped at end of scope, which releases
+    // the Ada runtime.
+    let safe_io = safe_io::SafeIO::init();
+
     // Create a fresh scene directory under the isolation root. Everything
     // this scan produces lives inside it; nothing is written anywhere else.
     let scene = scene::Scene::create(target, scene_root.as_deref())
@@ -96,10 +102,12 @@ fn run_scan(
         findings.scanner_count()
     );
 
-    // Emit the A2ML report into the scene directory. This is the only
-    // outbound artefact of a v0 run.
-    let report_path = report::write_a2ml(&scene, target, &clone_path, &findings)
-        .context("report emission failed")?;
+    // Emit the A2ML report into the scene directory through the
+    // SPARK-verified write channel. This is the only outbound artefact
+    // of a v0 run.
+    let report_path =
+        report::write_a2ml(&safe_io, &scene, target, &clone_path, &findings)
+            .context("report emission failed")?;
 
     println!("{}", report_path.display());
     Ok(())
