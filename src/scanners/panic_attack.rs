@@ -121,9 +121,7 @@ pub fn run(clone_path: &Path, skip: bool, set: &mut FindingSet) -> Result<()> {
                     "unavailable",
                     Severity::Info,
                     Location::Repo,
-                    format!(
-                        "panic-attack not invokable ({e}); ensure it is on PATH"
-                    ),
+                    format!("panic-attack not invokable ({e}); ensure it is on PATH"),
                 )
                 .with_feature("panic_attack.invoked", 0.0)
                 .with_feature("panic_attack.unavailable", 1.0),

@@ -170,7 +170,10 @@ impl FindingSet {
 
     /// Add a finding to the set. Sorted into its scanner's bucket.
     pub fn push(&mut self, finding: Finding) {
-        self.groups.entry(finding.scanner).or_default().push(finding);
+        self.groups
+            .entry(finding.scanner)
+            .or_default()
+            .push(finding);
     }
 
     /// Total findings across all scanners.

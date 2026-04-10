@@ -37,19 +37,14 @@ fn write_inside_scene_root_is_accepted() {
     let scene_root = temp_scene_root();
     let target = scene_root.join("report.a2ml");
 
-    let result = safe_io.write(
-        &scene_root,
-        &target,
-        b"(test-report (ok true))\n",
-    );
+    let result = safe_io.write(&scene_root, &target, b"(test-report (ok true))\n");
 
     assert!(
         result.is_ok(),
         "write inside scene root was unexpectedly rejected: {result:?}"
     );
 
-    let contents = fs::read_to_string(&target)
-        .expect("written file should be readable");
+    let contents = fs::read_to_string(&target).expect("written file should be readable");
     assert_eq!(contents, "(test-report (ok true))\n");
 
     let _ = fs::remove_dir_all(&scene_root);
@@ -62,18 +57,12 @@ fn write_outside_scene_root_is_rejected() {
 
     // An attacker-controlled target in /tmp, deliberately outside the
     // scene root. The SPARK-proven Is_Inside check must reject this.
-    let evil_target = std::env::temp_dir().join(format!(
-        "robofishy-evil-{}.a2ml",
-        std::process::id()
-    ));
+    let evil_target =
+        std::env::temp_dir().join(format!("robofishy-evil-{}.a2ml", std::process::id()));
     // Make sure no pre-existing file shows up as a false positive.
     let _ = fs::remove_file(&evil_target);
 
-    let result = safe_io.write(
-        &scene_root,
-        &evil_target,
-        b"(should-never-be-written)\n",
-    );
+    let result = safe_io.write(&scene_root, &evil_target, b"(should-never-be-written)\n");
 
     assert!(
         matches!(result, Err(SafeWriteError::Rejected)),
@@ -99,24 +88,15 @@ fn prefix_confusion_attack_is_rejected() {
     // by a path separator, which blocks this.
 
     let safe_io = SafeIO::init();
-    let base = std::env::temp_dir().join(format!(
-        "robofishy-prefix-{}",
-        std::process::id()
-    ));
+    let base = std::env::temp_dir().join(format!("robofishy-prefix-{}", std::process::id()));
     let scene_root = base.with_extension("foo");
     let sibling = base.with_extension("foobar");
-    fs::create_dir_all(&scene_root)
-        .expect("failed to create scene root");
-    fs::create_dir_all(&sibling)
-        .expect("failed to create sibling dir");
+    fs::create_dir_all(&scene_root).expect("failed to create scene root");
+    fs::create_dir_all(&sibling).expect("failed to create sibling dir");
     let evil_target = sibling.join("evil.a2ml");
     let _ = fs::remove_file(&evil_target);
 
-    let result = safe_io.write(
-        &scene_root,
-        &evil_target,
-        b"(prefix-confusion)\n",
-    );
+    let result = safe_io.write(&scene_root, &evil_target, b"(prefix-confusion)\n");
 
     assert!(
         matches!(result, Err(SafeWriteError::Rejected)),

@@ -54,39 +54,131 @@ struct Signature {
 
 const SIGNATURES: &[Signature] = &[
     // Claude Code ships this exact trailer in its default commit flow.
-    Signature { needle: "co-authored-by: claude",       rule: "coauthor_claude",     agent: "claude"    },
-    Signature { needle: "generated with [claude code]", rule: "generated_claude",    agent: "claude"    },
-    Signature { needle: "generated with claude code",   rule: "generated_claude_alt",agent: "claude"    },
-    Signature { needle: "noreply@anthropic.com",        rule: "anthropic_noreply",   agent: "claude"    },
+    Signature {
+        needle: "co-authored-by: claude",
+        rule: "coauthor_claude",
+        agent: "claude",
+    },
+    Signature {
+        needle: "generated with [claude code]",
+        rule: "generated_claude",
+        agent: "claude",
+    },
+    Signature {
+        needle: "generated with claude code",
+        rule: "generated_claude_alt",
+        agent: "claude",
+    },
+    Signature {
+        needle: "noreply@anthropic.com",
+        rule: "anthropic_noreply",
+        agent: "claude",
+    },
     // GitHub Copilot (PR agent and CLI variants)
-    Signature { needle: "co-authored-by: copilot",      rule: "coauthor_copilot",    agent: "copilot"   },
-    Signature { needle: "copilot@users.noreply.github.com", rule: "copilot_email",   agent: "copilot"   },
+    Signature {
+        needle: "co-authored-by: copilot",
+        rule: "coauthor_copilot",
+        agent: "copilot",
+    },
+    Signature {
+        needle: "copilot@users.noreply.github.com",
+        rule: "copilot_email",
+        agent: "copilot",
+    },
     // OpenAI Codex CLI
-    Signature { needle: "co-authored-by: codex",        rule: "coauthor_codex",      agent: "codex"     },
-    Signature { needle: "generated with codex",         rule: "generated_codex",     agent: "codex"     },
+    Signature {
+        needle: "co-authored-by: codex",
+        rule: "coauthor_codex",
+        agent: "codex",
+    },
+    Signature {
+        needle: "generated with codex",
+        rule: "generated_codex",
+        agent: "codex",
+    },
     // Gemini CLI
-    Signature { needle: "co-authored-by: gemini",       rule: "coauthor_gemini",     agent: "gemini"    },
-    Signature { needle: "generated with gemini",        rule: "generated_gemini",    agent: "gemini"    },
+    Signature {
+        needle: "co-authored-by: gemini",
+        rule: "coauthor_gemini",
+        agent: "gemini",
+    },
+    Signature {
+        needle: "generated with gemini",
+        rule: "generated_gemini",
+        agent: "gemini",
+    },
     // Cursor
-    Signature { needle: "generated with cursor",        rule: "generated_cursor",    agent: "cursor"    },
-    Signature { needle: "co-authored-by: cursor",       rule: "coauthor_cursor",     agent: "cursor"    },
+    Signature {
+        needle: "generated with cursor",
+        rule: "generated_cursor",
+        agent: "cursor",
+    },
+    Signature {
+        needle: "co-authored-by: cursor",
+        rule: "coauthor_cursor",
+        agent: "cursor",
+    },
     // Aider
-    Signature { needle: "aider: ",                      rule: "aider_prefix",        agent: "aider"     },
-    Signature { needle: "aider (gpt-",                  rule: "aider_gpt_marker",    agent: "aider"     },
+    Signature {
+        needle: "aider: ",
+        rule: "aider_prefix",
+        agent: "aider",
+    },
+    Signature {
+        needle: "aider (gpt-",
+        rule: "aider_gpt_marker",
+        agent: "aider",
+    },
     // Windsurf / Cascade
-    Signature { needle: "generated with windsurf",      rule: "generated_windsurf",  agent: "windsurf"  },
+    Signature {
+        needle: "generated with windsurf",
+        rule: "generated_windsurf",
+        agent: "windsurf",
+    },
     // Devin
-    Signature { needle: "co-authored-by: devin",        rule: "coauthor_devin",      agent: "devin"     },
-    Signature { needle: "generated with devin",         rule: "generated_devin",     agent: "devin"     },
+    Signature {
+        needle: "co-authored-by: devin",
+        rule: "coauthor_devin",
+        agent: "devin",
+    },
+    Signature {
+        needle: "generated with devin",
+        rule: "generated_devin",
+        agent: "devin",
+    },
     // Zed agentic (when committing via Zed's assistant flows)
-    Signature { needle: "co-authored-by: zed",          rule: "coauthor_zed",        agent: "zed"       },
+    Signature {
+        needle: "co-authored-by: zed",
+        rule: "coauthor_zed",
+        agent: "zed",
+    },
     // Alternative casings / phrasings that agents emit in the wild.
-    Signature { needle: "generated-by: claude",         rule: "generated_by_claude", agent: "claude"    },
-    Signature { needle: "ai-generated",                 rule: "ai_generated_marker", agent: "generic"   },
+    Signature {
+        needle: "generated-by: claude",
+        rule: "generated_by_claude",
+        agent: "claude",
+    },
+    Signature {
+        needle: "ai-generated",
+        rule: "ai_generated_marker",
+        agent: "generic",
+    },
     // Generic bot actors — noisy but useful as a baseline rate
-    Signature { needle: "dependabot[bot]",              rule: "dependabot_actor",    agent: "bot_other" },
-    Signature { needle: "renovate[bot]",                rule: "renovate_actor",      agent: "bot_other" },
-    Signature { needle: "github-actions[bot]",          rule: "gha_actor",           agent: "bot_other" },
+    Signature {
+        needle: "dependabot[bot]",
+        rule: "dependabot_actor",
+        agent: "bot_other",
+    },
+    Signature {
+        needle: "renovate[bot]",
+        rule: "renovate_actor",
+        agent: "bot_other",
+    },
+    Signature {
+        needle: "github-actions[bot]",
+        rule: "gha_actor",
+        agent: "bot_other",
+    },
 ];
 
 /// Run the scanner against the git clone at `clone_path`.
@@ -194,11 +286,7 @@ pub fn run(clone_path: &Path, set: &mut FindingSet) -> Result<()> {
                 Location::Commit {
                     sha: sha.to_string(),
                 },
-                format!(
-                    "{} signature matched in commit {}",
-                    agent,
-                    short_sha(sha)
-                ),
+                format!("{} signature matched in commit {}", agent, short_sha(sha)),
             )
             .with_feature(&format!("commit_trailers.{agent}"), 1.0);
             set.push(finding);
@@ -216,17 +304,12 @@ pub fn run(clone_path: &Path, set: &mut FindingSet) -> Result<()> {
             Severity::Notice
         },
         Location::Repo,
-        format!(
-            "commit_trailers: {commits_flagged}/{commits_seen} commits carry agent signatures"
-        ),
+        format!("commit_trailers: {commits_flagged}/{commits_seen} commits carry agent signatures"),
     )
     .with_feature("commit_trailers.commits_seen", commits_seen as f64)
     .with_feature("commit_trailers.commits_flagged", commits_flagged as f64);
     for (agent, count) in &per_agent {
-        summary = summary.with_feature(
-            &format!("commit_trailers.{agent}_count"),
-            *count as f64,
-        );
+        summary = summary.with_feature(&format!("commit_trailers.{agent}_count"), *count as f64);
     }
     set.push(summary);
 
@@ -234,5 +317,9 @@ pub fn run(clone_path: &Path, set: &mut FindingSet) -> Result<()> {
 }
 
 fn short_sha(sha: &str) -> &str {
-    if sha.len() >= 12 { &sha[..12] } else { sha }
+    if sha.len() >= 12 {
+        &sha[..12]
+    } else {
+        sha
+    }
 }

@@ -53,40 +53,132 @@ struct Rule {
 /// in the wild so early-exit scans stay cheap in the common case.
 const RULES: &[Rule] = &[
     // Claude family
-    Rule { path: "CLAUDE.md",                       rule: "claude_md",             agent: "claude"   },
-    Rule { path: ".claude/",                        rule: "claude_dir",            agent: "claude"   },
-    Rule { path: "0-AI-MANIFEST.a2ml",              rule: "ai_manifest_a2ml",      agent: "claude"   },
-    Rule { path: "AI.a2ml",                         rule: "ai_a2ml",               agent: "claude"   },
-    Rule { path: "AI.md",                           rule: "ai_md",                 agent: "generic"  },
-    Rule { path: "AI.djot",                         rule: "ai_djot",               agent: "generic"  },
+    Rule {
+        path: "CLAUDE.md",
+        rule: "claude_md",
+        agent: "claude",
+    },
+    Rule {
+        path: ".claude/",
+        rule: "claude_dir",
+        agent: "claude",
+    },
+    Rule {
+        path: "0-AI-MANIFEST.a2ml",
+        rule: "ai_manifest_a2ml",
+        agent: "claude",
+    },
+    Rule {
+        path: "AI.a2ml",
+        rule: "ai_a2ml",
+        agent: "claude",
+    },
+    Rule {
+        path: "AI.md",
+        rule: "ai_md",
+        agent: "generic",
+    },
+    Rule {
+        path: "AI.djot",
+        rule: "ai_djot",
+        agent: "generic",
+    },
     // GitHub Copilot
-    Rule { path: ".github/copilot-instructions.md", rule: "copilot_instructions",  agent: "copilot"  },
+    Rule {
+        path: ".github/copilot-instructions.md",
+        rule: "copilot_instructions",
+        agent: "copilot",
+    },
     // Cursor
-    Rule { path: ".cursorrules",                    rule: "cursor_rules",          agent: "cursor"   },
-    Rule { path: ".cursor/",                        rule: "cursor_dir",            agent: "cursor"   },
+    Rule {
+        path: ".cursorrules",
+        rule: "cursor_rules",
+        agent: "cursor",
+    },
+    Rule {
+        path: ".cursor/",
+        rule: "cursor_dir",
+        agent: "cursor",
+    },
     // Aider
-    Rule { path: ".aider.conf.yml",                 rule: "aider_conf",            agent: "aider"    },
-    Rule { path: ".aider.chat.history.md",          rule: "aider_history",         agent: "aider"    },
+    Rule {
+        path: ".aider.conf.yml",
+        rule: "aider_conf",
+        agent: "aider",
+    },
+    Rule {
+        path: ".aider.chat.history.md",
+        rule: "aider_history",
+        agent: "aider",
+    },
     // Gemini CLI
-    Rule { path: "GEMINI.md",                       rule: "gemini_md",             agent: "gemini"   },
-    Rule { path: ".gemini/",                        rule: "gemini_dir",            agent: "gemini"   },
+    Rule {
+        path: "GEMINI.md",
+        rule: "gemini_md",
+        agent: "gemini",
+    },
+    Rule {
+        path: ".gemini/",
+        rule: "gemini_dir",
+        agent: "gemini",
+    },
     // OpenAI Codex CLI
-    Rule { path: ".codex/",                         rule: "codex_dir",             agent: "codex"    },
-    Rule { path: "CODEX.md",                        rule: "codex_md",              agent: "codex"    },
+    Rule {
+        path: ".codex/",
+        rule: "codex_dir",
+        agent: "codex",
+    },
+    Rule {
+        path: "CODEX.md",
+        rule: "codex_md",
+        agent: "codex",
+    },
     // Windsurf
-    Rule { path: ".windsurfrules",                  rule: "windsurf_rules",        agent: "windsurf" },
+    Rule {
+        path: ".windsurfrules",
+        rule: "windsurf_rules",
+        agent: "windsurf",
+    },
     // Continue.dev
-    Rule { path: ".continuerules",                  rule: "continue_rules",        agent: "continue" },
-    Rule { path: ".continue/",                      rule: "continue_dir",          agent: "continue" },
+    Rule {
+        path: ".continuerules",
+        rule: "continue_rules",
+        agent: "continue",
+    },
+    Rule {
+        path: ".continue/",
+        rule: "continue_dir",
+        agent: "continue",
+    },
     // Zed IDE (first-party AI integration)
-    Rule { path: ".zed/",                           rule: "zed_dir",               agent: "zed"      },
+    Rule {
+        path: ".zed/",
+        rule: "zed_dir",
+        agent: "zed",
+    },
     // Devin (Cognition AI)
-    Rule { path: ".devin/",                         rule: "devin_dir",             agent: "devin"    },
+    Rule {
+        path: ".devin/",
+        rule: "devin_dir",
+        agent: "devin",
+    },
     // GitHub Copilot prompt repository (newer surface)
-    Rule { path: ".github/prompts/",                rule: "copilot_prompts_dir",   agent: "copilot"  },
+    Rule {
+        path: ".github/prompts/",
+        rule: "copilot_prompts_dir",
+        agent: "copilot",
+    },
     // Generic agent manifest used by newer tooling
-    Rule { path: "AGENTS.md",                       rule: "agents_md",             agent: "generic"  },
-    Rule { path: "AGENT.md",                        rule: "agent_md",              agent: "generic"  },
+    Rule {
+        path: "AGENTS.md",
+        rule: "agents_md",
+        agent: "generic",
+    },
+    Rule {
+        path: "AGENT.md",
+        rule: "agent_md",
+        agent: "generic",
+    },
 ];
 
 /// Run the scanner against `clone_path` and push findings into `set`.
@@ -150,16 +242,17 @@ pub fn run(clone_path: &Path, set: &mut FindingSet) -> Result<()> {
     let mut summary = Finding::new(
         NAME,
         "summary",
-        if total == 0 { Severity::Info } else { Severity::Notice },
+        if total == 0 {
+            Severity::Info
+        } else {
+            Severity::Notice
+        },
         Location::Repo,
         format!("agent_files scan found {total} matching paths"),
     )
     .with_feature("agent_files.total", total as f64);
     for (agent, count) in &per_agent {
-        summary = summary.with_feature(
-            &format!("agent_files.{agent}_count"),
-            *count as f64,
-        );
+        summary = summary.with_feature(&format!("agent_files.{agent}_count"), *count as f64);
     }
     set.push(summary);
 
@@ -180,8 +273,7 @@ fn rule_matches(rule: &Rule, rel: &str, is_dir: Option<bool>) -> bool {
         if rel == dir_part {
             return true;
         }
-        if rel.starts_with(dir_part) {
-            let after = &rel[dir_part.len()..];
+        if let Some(after) = rel.strip_prefix(dir_part) {
             return after.starts_with('/');
         }
         return false;

@@ -45,7 +45,10 @@ fn agent_files_detects_claude_and_copilot_markers() {
         .collect();
 
     let rules: Vec<_> = findings.iter().map(|f| f.rule).collect();
-    assert!(rules.contains(&"claude_md"), "expected claude_md: {rules:?}");
+    assert!(
+        rules.contains(&"claude_md"),
+        "expected claude_md: {rules:?}"
+    );
     assert!(
         rules.contains(&"copilot_instructions"),
         "expected copilot_instructions: {rules:?}"
@@ -94,7 +97,10 @@ fn banned_patterns_detects_unsafe_coerce_and_ts_ignore() {
         rules.contains(&"haskell_unsafe_coerce"),
         "expected haskell_unsafe_coerce: {rules:?}"
     );
-    assert!(rules.contains(&"ts_ignore"), "expected ts_ignore: {rules:?}");
+    assert!(
+        rules.contains(&"ts_ignore"),
+        "expected ts_ignore: {rules:?}"
+    );
 
     let summary = findings
         .iter()
@@ -212,8 +218,7 @@ fn commit_trailers_emits_info_when_not_a_git_repo() {
 fn panic_attack_skip_mode_emits_stable_dimensions() {
     let tmp = tempfile::tempdir().expect("tempdir");
     let mut set = FindingSet::new();
-    panic_attack::run(tmp.path(), /* skip */ true, &mut set)
-        .expect("panic_attack skip run");
+    panic_attack::run(tmp.path(), /* skip */ true, &mut set).expect("panic_attack skip run");
 
     let finding = set
         .groups()

@@ -31,12 +31,7 @@ pub fn write_a2ml(
 
     safe_io
         .write(scene.root(), &report_path, body.as_bytes())
-        .with_context(|| {
-            format!(
-                "SPARK-guarded write to {} rejected",
-                report_path.display()
-            )
-        })?;
+        .with_context(|| format!("SPARK-guarded write to {} rejected", report_path.display()))?;
 
     Ok(report_path)
 }
@@ -44,11 +39,7 @@ pub fn write_a2ml(
 /// Render a findings set as S-expression A2ML. The format is
 /// deliberately simple for v0; v1 will emit richer structure once the
 /// classifier produces confidence intervals and per-agent attribution.
-fn render(
-    target: &str,
-    clone_path: &Path,
-    findings: &FindingSet,
-) -> String {
+fn render(target: &str, clone_path: &Path, findings: &FindingSet) -> String {
     let mut out = String::new();
     out.push_str(";; SPDX-License-Identifier: PMPL-1.0-or-later\n");
     out.push_str(";; robofishy forensic report\n");
@@ -79,10 +70,7 @@ fn render(
             out.push_str("      (finding\n");
             out.push_str(&format!("        (id \"{}\")\n", f.id));
             out.push_str(&format!("        (rule \"{}\")\n", f.rule));
-            out.push_str(&format!(
-                "        (severity {})\n",
-                f.severity.as_str()
-            ));
+            out.push_str(&format!("        (severity {})\n", f.severity.as_str()));
             match &f.location {
                 Location::Repo => {
                     out.push_str("        (location repo)\n");
@@ -98,15 +86,10 @@ fn render(
                     )),
                 },
                 Location::Commit { sha } => {
-                    out.push_str(&format!(
-                        "        (location (commit \"{sha}\"))\n"
-                    ));
+                    out.push_str(&format!("        (location (commit \"{sha}\"))\n"));
                 }
             }
-            out.push_str(&format!(
-                "        (message \"{}\")\n",
-                escape(&f.message)
-            ));
+            out.push_str(&format!("        (message \"{}\")\n", escape(&f.message)));
             // Feature-vector emission per ADR 0002: every finding
             // exposes the scalar features its scanner populated, so
             // v1's classifier can ingest reports without re-walking
@@ -134,9 +117,7 @@ fn render(
     out.push_str("    (touched-subject false)\n");
     out.push_str("    (wrote-only-to-scene-dir true)\n");
     out.push_str("    (feedback-o-tron-invoked false)\n");
-    out.push_str(
-        "    (write-channel \"Robofishy_Write_Guard.Safe_Write (SPARK-verified)\"))\n",
-    );
+    out.push_str("    (write-channel \"Robofishy_Write_Guard.Safe_Write (SPARK-verified)\"))\n");
     out.push_str(")\n");
     out
 }

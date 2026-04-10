@@ -62,17 +62,15 @@ impl Scene {
             ));
         }
 
-        std::fs::create_dir_all(&root_base).with_context(|| {
-            format!("creating scene root {}", root_base.display())
-        })?;
+        std::fs::create_dir_all(&root_base)
+            .with_context(|| format!("creating scene root {}", root_base.display()))?;
 
         let stamp = Utc::now().format("%Y%m%dT%H%M%SZ").to_string();
         let slug = slugify(target);
         let scene_dir = root_base.join(format!("{stamp}-{slug}"));
 
-        std::fs::create_dir_all(&scene_dir).with_context(|| {
-            format!("creating scene directory {}", scene_dir.display())
-        })?;
+        std::fs::create_dir_all(&scene_dir)
+            .with_context(|| format!("creating scene directory {}", scene_dir.display()))?;
 
         Ok(Self { root: scene_dir })
     }

@@ -53,39 +53,159 @@ struct Pattern {
 
 const PATTERNS: &[Pattern] = &[
     // Idris / Agda / Lean / Coq verification escape hatches.
-    Pattern { needle: "believe_me",     rule: "idris_believe_me",   feature: "believe_me",    severity: Severity::Strong },
-    Pattern { needle: "assert_total",   rule: "idris_assert_total", feature: "assert_total",  severity: Severity::Strong },
-    Pattern { needle: "really_believe_me", rule: "idris_really_believe_me", feature: "really_believe_me", severity: Severity::Strong },
-    Pattern { needle: "Admitted",       rule: "coq_admitted",       feature: "admitted",      severity: Severity::Strong },
-    Pattern { needle: "admit",          rule: "lean_admit",         feature: "admit",         severity: Severity::Notice },
-    Pattern { needle: "sorry",          rule: "lean_sorry",         feature: "sorry",         severity: Severity::Notice },
+    Pattern {
+        needle: "believe_me",
+        rule: "idris_believe_me",
+        feature: "believe_me",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "assert_total",
+        rule: "idris_assert_total",
+        feature: "assert_total",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "really_believe_me",
+        rule: "idris_really_believe_me",
+        feature: "really_believe_me",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "Admitted",
+        rule: "coq_admitted",
+        feature: "admitted",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "admit",
+        rule: "lean_admit",
+        feature: "admit",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "sorry",
+        rule: "lean_sorry",
+        feature: "sorry",
+        severity: Severity::Notice,
+    },
     // Haskell / OCaml unsafe coercions.
-    Pattern { needle: "unsafeCoerce",   rule: "haskell_unsafe_coerce", feature: "unsafe_coerce", severity: Severity::Strong },
-    Pattern { needle: "Obj.magic",      rule: "ocaml_obj_magic",    feature: "obj_magic",     severity: Severity::Strong },
+    Pattern {
+        needle: "unsafeCoerce",
+        rule: "haskell_unsafe_coerce",
+        feature: "unsafe_coerce",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "Obj.magic",
+        rule: "ocaml_obj_magic",
+        feature: "obj_magic",
+        severity: Severity::Strong,
+    },
     // TypeScript / JS type-checker silencers.
-    Pattern { needle: "@ts-ignore",     rule: "ts_ignore",          feature: "ts_ignore",     severity: Severity::Strong },
-    Pattern { needle: "@ts-nocheck",    rule: "ts_nocheck",         feature: "ts_nocheck",    severity: Severity::Strong },
-    Pattern { needle: "@ts-expect-error", rule: "ts_expect_error",  feature: "ts_expect_error", severity: Severity::Notice },
+    Pattern {
+        needle: "@ts-ignore",
+        rule: "ts_ignore",
+        feature: "ts_ignore",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "@ts-nocheck",
+        rule: "ts_nocheck",
+        feature: "ts_nocheck",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "@ts-expect-error",
+        rule: "ts_expect_error",
+        feature: "ts_expect_error",
+        severity: Severity::Notice,
+    },
     // Python / general type-checker silencers.
-    Pattern { needle: "# type: ignore", rule: "py_type_ignore",     feature: "py_type_ignore", severity: Severity::Notice },
-    Pattern { needle: "# noqa",         rule: "py_noqa",            feature: "py_noqa",       severity: Severity::Info },
+    Pattern {
+        needle: "# type: ignore",
+        rule: "py_type_ignore",
+        feature: "py_type_ignore",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "# noqa",
+        rule: "py_noqa",
+        feature: "py_noqa",
+        severity: Severity::Info,
+    },
     // Rust unsafe hatches commonly sprayed by agents that cannot fix
     // borrow-checker issues. `unsafe` alone is too noisy; we catch the
     // specific abuses.
-    Pattern { needle: "std::mem::transmute", rule: "rust_transmute", feature: "rust_transmute", severity: Severity::Strong },
-    Pattern { needle: "unwrap_unchecked", rule: "rust_unwrap_unchecked", feature: "rust_unwrap_unchecked", severity: Severity::Strong },
+    Pattern {
+        needle: "std::mem::transmute",
+        rule: "rust_transmute",
+        feature: "rust_transmute",
+        severity: Severity::Strong,
+    },
+    Pattern {
+        needle: "unwrap_unchecked",
+        rule: "rust_unwrap_unchecked",
+        feature: "rust_unwrap_unchecked",
+        severity: Severity::Strong,
+    },
     // Dynamic string evaluation.
-    Pattern { needle: "eval(",          rule: "eval_call",          feature: "eval_call",     severity: Severity::Notice },
-    Pattern { needle: "exec(",          rule: "exec_call",          feature: "exec_call",     severity: Severity::Notice },
+    Pattern {
+        needle: "eval(",
+        rule: "eval_call",
+        feature: "eval_call",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "exec(",
+        rule: "exec_call",
+        feature: "exec_call",
+        severity: Severity::Notice,
+    },
     // Broader linter/type-checker silencers.
-    Pattern { needle: "eslint-disable-next-line", rule: "eslint_disable", feature: "eslint_disable", severity: Severity::Notice },
-    Pattern { needle: "# pylint: disable",        rule: "pylint_disable", feature: "pylint_disable", severity: Severity::Notice },
-    Pattern { needle: "@SuppressWarnings",        rule: "java_suppress",  feature: "java_suppress",  severity: Severity::Notice },
+    Pattern {
+        needle: "eslint-disable-next-line",
+        rule: "eslint_disable",
+        feature: "eslint_disable",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "# pylint: disable",
+        rule: "pylint_disable",
+        feature: "pylint_disable",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "@SuppressWarnings",
+        rule: "java_suppress",
+        feature: "java_suppress",
+        severity: Severity::Notice,
+    },
     // Agent tells in comments — useful base-rate signal.
-    Pattern { needle: "TODO(claude)",   rule: "todo_claude",        feature: "todo_claude",   severity: Severity::Notice },
-    Pattern { needle: "TODO(copilot)",  rule: "todo_copilot",       feature: "todo_copilot",  severity: Severity::Notice },
-    Pattern { needle: "TODO(ai)",       rule: "todo_ai",            feature: "todo_ai",       severity: Severity::Notice },
-    Pattern { needle: "XXX AI:",        rule: "xxx_ai",             feature: "xxx_ai",        severity: Severity::Notice },
+    Pattern {
+        needle: "TODO(claude)",
+        rule: "todo_claude",
+        feature: "todo_claude",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "TODO(copilot)",
+        rule: "todo_copilot",
+        feature: "todo_copilot",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "TODO(ai)",
+        rule: "todo_ai",
+        feature: "todo_ai",
+        severity: Severity::Notice,
+    },
+    Pattern {
+        needle: "XXX AI:",
+        rule: "xxx_ai",
+        feature: "xxx_ai",
+        severity: Severity::Notice,
+    },
 ];
 
 /// Run the scanner against `clone_path`.
@@ -167,19 +287,18 @@ pub fn run(clone_path: &Path, set: &mut FindingSet) -> Result<()> {
     let mut summary = Finding::new(
         NAME,
         "summary",
-        if total_hits == 0 { Severity::Info } else { Severity::Strong },
+        if total_hits == 0 {
+            Severity::Info
+        } else {
+            Severity::Strong
+        },
         Location::Repo,
-        format!(
-            "banned_patterns: {total_hits} hits across {files_scanned} files"
-        ),
+        format!("banned_patterns: {total_hits} hits across {files_scanned} files"),
     )
     .with_feature("banned_patterns.total", total_hits as f64)
     .with_feature("banned_patterns.files_scanned", files_scanned as f64);
     for (feature, count) in &per_pattern {
-        summary = summary.with_feature(
-            &format!("banned_patterns.{feature}_count"),
-            *count as f64,
-        );
+        summary = summary.with_feature(&format!("banned_patterns.{feature}_count"), *count as f64);
     }
     set.push(summary);
 
