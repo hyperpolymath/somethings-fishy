@@ -2,13 +2,13 @@
 
 # Project Governance
 
-This document describes the governance model for **Something's Robofishy**.
+This document describes the governance model for **Something's [Robo] Fishy**.
 
 ---
 
 ## Project Governance Model
 
-Something's Robofishy follows a **Benevolent Dictator For Life (BDFL)** governance model.
+Something's [Robo] Fishy follows a **Benevolent Dictator For Life (BDFL)** governance model.
 This model is well-suited for solo maintainers and small project teams where rapid,
 consistent decision-making is more valuable than formal consensus processes.
 

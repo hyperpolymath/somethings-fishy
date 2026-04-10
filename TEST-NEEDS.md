@@ -48,7 +48,7 @@
 
 ### Zig FFI Tests ✅
 - [x] `src/interface/ffi/test/integration_test.zig` — template with examples
-  - Converted from somethings_robofishy placeholders to "template" namespace
+  - Converted from somethings_fishy placeholders to "template" namespace
   - Added comprehensive comments for how to instantiate
   - Tests grouped by category (lifecycle, operations, strings, errors, version, memory safety, threading)
   - Compiles and passes placeholder test

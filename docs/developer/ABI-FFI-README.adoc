@@ -1,7 +1,7 @@
 = ABI/FFI Standards
 {{~ Aditionally delete this line and fill out the template below ~}}
 
-# SOMETHINGS_ROBOFISHY ABI/FFI Documentation
+# SOMETHINGS_FISHY ABI/FFI Documentation
 
 ## Overview
 
@@ -27,7 +27,7 @@ This library follows the **Hyperpolymath RSR Standard** for ABI and FFI design:
                   ▼
 ┌─────────────────────────────────────────────┐
 │  C Headers (auto-generated)                 │
-│  generated/abi/somethings_robofishy.h                │
+│  generated/abi/somethings_fishy.h                │
 └─────────────────┬───────────────────────────┘
                   │
                   │ imported by
@@ -40,7 +40,7 @@ This library follows the **Hyperpolymath RSR Standard** for ABI and FFI design:
 │  - Memory-safe by default                   │
 └─────────────────┬───────────────────────────┘
                   │
-                  │ compiled to libsomethings_robofishy.so/.a
+                  │ compiled to libsomethings_fishy.so/.a
                   ▼
 ┌─────────────────────────────────────────────┐
 │  Any Language via C ABI                     │
@@ -51,7 +51,7 @@ This library follows the **Hyperpolymath RSR Standard** for ABI and FFI design:
 ## Directory Structure
 
 ```
-somethings_robofishy/
+somethings_fishy/
 ├── src/
 │   ├── abi/                    # ABI definitions (Idris2)
 │   │   ├── Types.idr           # Core type definitions with proofs
@@ -68,11 +68,11 @@ somethings_robofishy/
 │       ├── test/
 │       │   └── integration_test.zig
 │       └── include/
-│           └── somethings_robofishy.h   # C header (optional, can be generated)
+│           └── somethings_fishy.h   # C header (optional, can be generated)
 │
 ├── generated/                  # Auto-generated files
 │   └── abi/
-│       └── somethings_robofishy.h       # Generated from Idris2 ABI
+│       └── somethings_fishy.h       # Generated from Idris2 ABI
 │
 └── bindings/                   # Language-specific wrappers (optional)
     ├── rust/
@@ -200,7 +200,7 @@ zig build test                    # Run tests
 
 ```bash
 cd src/abi
-idris2 --cg c-header Types.idr -o ../../generated/abi/somethings_robofishy.h
+idris2 --cg c-header Types.idr -o ../../generated/abi/somethings_fishy.h
 ```
 
 ### Cross-Compile
@@ -223,32 +223,32 @@ zig build -Dtarget=x86_64-windows
 ### From C
 
 ```c
-#include "somethings_robofishy.h"
+#include "somethings_fishy.h"
 
 int main() {
-    void* handle = somethings_robofishy_init();
+    void* handle = somethings_fishy_init();
     if (!handle) return 1;
 
-    int result = somethings_robofishy_process(handle, 42);
+    int result = somethings_fishy_process(handle, 42);
     if (result != 0) {
-        const char* err = somethings_robofishy_last_error();
+        const char* err = somethings_fishy_last_error();
         fprintf(stderr, "Error: %s\n", err);
     }
 
-    somethings_robofishy_free(handle);
+    somethings_fishy_free(handle);
     return 0;
 }
 ```
 
 Compile with:
 ```bash
-gcc -o example example.c -lsomethings_robofishy -L./zig-out/lib
+gcc -o example example.c -lsomethings_fishy -L./zig-out/lib
 ```
 
 ### From Idris2
 
 ```idris
-import SOMETHINGS_ROBOFISHY.ABI.Foreign
+import SOMETHINGS_FISHY.ABI.Foreign
 
 main : IO ()
 main = do
@@ -265,22 +265,22 @@ main = do
 ### From Rust
 
 ```rust
-#[link(name = "somethings_robofishy")]
+#[link(name = "somethings_fishy")]
 extern "C" {
-    fn somethings_robofishy_init() -> *mut std::ffi::c_void;
-    fn somethings_robofishy_free(handle: *mut std::ffi::c_void);
-    fn somethings_robofishy_process(handle: *mut std::ffi::c_void, input: u32) -> i32;
+    fn somethings_fishy_init() -> *mut std::ffi::c_void;
+    fn somethings_fishy_free(handle: *mut std::ffi::c_void);
+    fn somethings_fishy_process(handle: *mut std::ffi::c_void, input: u32) -> i32;
 }
 
 fn main() {
     unsafe {
-        let handle = somethings_robofishy_init();
+        let handle = somethings_fishy_init();
         assert!(!handle.is_null());
 
-        let result = somethings_robofishy_process(handle, 42);
+        let result = somethings_fishy_process(handle, 42);
         assert_eq!(result, 0);
 
-        somethings_robofishy_free(handle);
+        somethings_fishy_free(handle);
     }
 }
 ```
@@ -288,21 +288,21 @@ fn main() {
 ### From Julia
 
 ```julia
-const libsomethings_robofishy = "libsomethings_robofishy"
+const libsomethings_fishy = "libsomethings_fishy"
 
 function init()
-    handle = ccall((:somethings_robofishy_init, libsomethings_robofishy), Ptr{Cvoid}, ())
+    handle = ccall((:somethings_fishy_init, libsomethings_fishy), Ptr{Cvoid}, ())
     handle == C_NULL && error("Failed to initialize")
     handle
 end
 
 function process(handle, input)
-    result = ccall((:somethings_robofishy_process, libsomethings_robofishy), Cint, (Ptr{Cvoid}, UInt32), handle, input)
+    result = ccall((:somethings_fishy_process, libsomethings_fishy), Cint, (Ptr{Cvoid}, UInt32), handle, input)
     result
 end
 
 function cleanup(handle)
-    ccall((:somethings_robofishy_free, libsomethings_robofishy), Cvoid, (Ptr{Cvoid},), handle)
+    ccall((:somethings_fishy_free, libsomethings_fishy), Cvoid, (Ptr{Cvoid},), handle)
 end
 
 # Usage
@@ -356,7 +356,7 @@ When modifying the ABI/FFI:
 
 2. **Generate C header**
    ```bash
-   idris2 --cg c-header src/abi/Types.idr -o generated/abi/somethings_robofishy.h
+   idris2 --cg c-header src/abi/Types.idr -o generated/abi/somethings_fishy.h
    ```
 
 3. **Update FFI implementation** (`ffi/zig/src/main.zig`)

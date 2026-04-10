@@ -4,11 +4,11 @@ authors:
 - family-names: "Jewell"
   given-names: "Jonathan D.A."
   orcid: "https://orcid.org/0000-0000-0000-0000" # Placeholder
-title: "Something's Robofishy"
+title: "Something's [Robo] Fishy"
 version: 0.1.0
 date-released: 2026-04-10
-url: "https://github.com/hyperpolymath/somethings-robofishy"
-repository-code: "https://github.com/hyperpolymath/somethings-robofishy"
+url: "https://github.com/hyperpolymath/somethings-fishy"
+repository-code: "https://github.com/hyperpolymath/somethings-fishy"
 license: PMPL-1.0-or-later
 keywords:
   - "rsr"

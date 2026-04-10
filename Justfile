@@ -48,7 +48,7 @@ help recipe="":
 
 # Show this project's info
 info:
-    @echo "Project: somethings_robofishy"
+    @echo "Project: somethings_fishy"
     @echo "Version: {{version}}"
     @echo "RSR Tier: {{tier}}"
     @echo "Recipes: $(just --summary | wc -w)"
@@ -674,7 +674,7 @@ verify:
 
 # Build the project (debug mode)
 build *args:
-    @echo "Building somethings_robofishy (debug)..."
+    @echo "Building somethings_fishy (debug)..."
     # TODO: Replace with your build command
     # Examples:
     #   cargo build {{args}}                    # Rust
@@ -685,7 +685,7 @@ build *args:
 
 # Build in release mode with optimizations
 build-release *args:
-    @echo "Building somethings_robofishy (release)..."
+    @echo "Building somethings_fishy (release)..."
     # TODO: Replace with your release build command
     # Examples:
     #   cargo build --release {{args}}
@@ -860,7 +860,7 @@ run-verbose *args: build
 
 # Install to user path
 install: build-release
-    @echo "Installing somethings_robofishy..."
+    @echo "Installing somethings_fishy..."
     # TODO: Replace with your install command
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -904,7 +904,7 @@ cookbook:
     #!/usr/bin/env bash
     mkdir -p docs
     OUTPUT="docs/just-cookbook.adoc"
-    echo "= somethings_robofishy Justfile Cookbook" > "$OUTPUT"
+    echo "= somethings_fishy Justfile Cookbook" > "$OUTPUT"
     echo ":toc: left" >> "$OUTPUT"
     echo ":toclevels: 3" >> "$OUTPUT"
     echo "" >> "$OUTPUT"
@@ -930,10 +930,10 @@ cookbook:
 man:
     #!/usr/bin/env bash
     mkdir -p docs/man
-    cat > docs/man/somethings_robofishy.1 << EOF
-    .TH somethings_robofishy 1 "$(date +%Y-%m-%d)" "{{version}}" "somethings_robofishy Manual"
+    cat > docs/man/somethings_fishy.1 << EOF
+    .TH somethings_fishy 1 "$(date +%Y-%m-%d)" "{{version}}" "somethings_fishy Manual"
     .SH NAME
-    somethings_robofishy \- RSR-compliant project
+    somethings_fishy \- RSR-compliant project
     .SH SYNOPSIS
     .B just
     [recipe] [args...]
@@ -942,7 +942,7 @@ man:
     .SH AUTHOR
     $(git config user.name 2>/dev/null || echo "Author") <$(git config user.email 2>/dev/null || echo "email")>
     EOF
-    echo "Generated: docs/man/somethings_robofishy.1"
+    echo "Generated: docs/man/somethings_fishy.1"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CONTAINERS (stapeln ecosystem — Podman + Chainguard Wolfi)
@@ -972,8 +972,8 @@ container-init:
     fi
 
     # Prompt for container-specific values
-    read -rp "Service name (e.g. my-api) [somethings_robofishy]: " _SERVICE_NAME
-    SERVICE_NAME="${_SERVICE_NAME:-somethings_robofishy}"
+    read -rp "Service name (e.g. my-api) [somethings_fishy]: " _SERVICE_NAME
+    SERVICE_NAME="${_SERVICE_NAME:-somethings_fishy}"
 
     read -rp "Primary port [8080]: " _PORT
     PORT="${_PORT:-8080}"
@@ -1022,9 +1022,9 @@ container-build *args:
     if [ -f "container/ct-build.sh" ]; then
         cd container && ./ct-build.sh {{args}}
     elif [ -f "container/Containerfile" ]; then
-        podman build -t somethings_robofishy:latest -f container/Containerfile .
+        podman build -t somethings_fishy:latest -f container/Containerfile .
     elif [ -f "Containerfile" ]; then
-        podman build -t somethings_robofishy:latest -f Containerfile .
+        podman build -t somethings_fishy:latest -f Containerfile .
     else
         echo "No Containerfile found in container/ or project root"
         exit 1
@@ -1086,12 +1086,12 @@ container-push:
         cd container && ./ct-build.sh --push
     else
         echo "No container/ct-build.sh found — falling back to podman push"
-        podman push somethings_robofishy:latest
+        podman push somethings_fishy:latest
     fi
 
 # Run container interactively (for debugging)
 container-run *args:
-    podman run --rm -it somethings_robofishy:latest {{args}}
+    podman run --rm -it somethings_fishy:latest {{args}}
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CI & AUTOMATION

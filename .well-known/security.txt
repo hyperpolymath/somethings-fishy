@@ -6,6 +6,6 @@ Contact: mailto:jonathan.jewell@open.ac.uk
 Expires: 2026-12-31T23:59:59.000Z
 Encryption: {{PGP_KEY_URL}}
 Preferred-Languages: en
-Canonical: https://github.com/hyperpolymath/somethings-robofishy/.well-known/security.txt
-Policy: https://github.com/hyperpolymath/somethings-robofishy/blob/main/SECURITY.md
-Hiring: https://https://github.com/hyperpolymath/somethings-robofishy/careers
+Canonical: https://github.com/hyperpolymath/somethings-fishy/.well-known/security.txt
+Policy: https://github.com/hyperpolymath/somethings-fishy/blob/main/SECURITY.md
+Hiring: https://https://github.com/hyperpolymath/somethings-fishy/careers

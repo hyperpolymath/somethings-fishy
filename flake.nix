@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 # Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
-# Nix flake for Something's Robofishy
+# Nix flake for Something's [Robo] Fishy
 #
 # NOTE: guix.scm is the PRIMARY development environment. This flake is provided
 # as a FALLBACK for contributors who use Nix instead of Guix. The .envrc checks
@@ -16,10 +16,10 @@
 # With direnv (.envrc already configured):
 #   direnv allow         # Auto-enters shell on cd
 #
-# TODO: Replace Something's Robofishy and Agent-damage triage tool — checks whether LLM agents have broken a repo with actual values.
+# TODO: Replace Something's [Robo] Fishy and Agent-damage triage tool — checks whether LLM agents have broken a repo with actual values.
 
 {
-  description = "Something's Robofishy — RSR-compliant project";
+  description = "Something's [Robo] Fishy — RSR-compliant project";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -92,19 +92,19 @@
         # Development shell — `nix develop`
         # ---------------------------------------------------------------
         devShells.default = pkgs.mkShell {
-          name = "Something's Robofishy-dev";
+          name = "Something's [Robo] Fishy-dev";
 
           buildInputs = commonTools ++ languageTools;
 
           # Environment variables available inside the shell.
           env = {
-            PROJECT_NAME = "Something's Robofishy";
+            PROJECT_NAME = "Something's [Robo] Fishy";
             RSR_TIER = "infrastructure";
           };
 
           shellHook = ''
             echo ""
-            echo "  Something's Robofishy — development shell"
+            echo "  Something's [Robo] Fishy — development shell"
             echo "  Nix:    $(nix --version 2>/dev/null || echo 'unknown')"
             echo "  Just:   $(just --version 2>/dev/null || echo 'not found')"
             echo ""
@@ -116,7 +116,7 @@
             # consistent whether you enter via 'nix develop' or 'direnv allow'.
             if [ -z "''${DIRENV_IN_ENVRC:-}" ] && [ -f .envrc ]; then
               # Only source the non-nix parts to avoid recursion.
-              export PROJECT_NAME="Something's Robofishy"
+              export PROJECT_NAME="Something's [Robo] Fishy"
               export RSR_TIER="infrastructure"
               if [ -f .env ]; then
                 set -a
@@ -131,7 +131,7 @@
         # Package — `nix build`
         # ---------------------------------------------------------------
         packages.default = pkgs.stdenv.mkDerivation {
-          pname = "Something's Robofishy";
+          pname = "Something's [Robo] Fishy";
           version = "0.1.0";
 
           src = self;
@@ -149,7 +149,7 @@
           #   buildPhase = "zig build -Doptimize=ReleaseSafe";
 
           buildPhase = ''
-            echo "TODO: Add build commands for Something's Robofishy"
+            echo "TODO: Add build commands for Something's [Robo] Fishy"
           '';
 
           installPhase = ''
@@ -159,7 +159,7 @@
 
           meta = with pkgs.lib; {
             description = "Agent-damage triage tool — checks whether LLM agents have broken a repo";
-            homepage = "https://github.com/hyperpolymath/Something's Robofishy";
+            homepage = "https://github.com/hyperpolymath/Something's [Robo] Fishy";
             license = licenses.mpl20; # PMPL-1.0-or-later extends MPL-2.0
             maintainers = [];
             platforms = [ "x86_64-linux" "aarch64-linux" ];

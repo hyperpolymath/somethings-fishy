@@ -1,20 +1,20 @@
 ;; SPDX-License-Identifier: PMPL-1.0-or-later
 ;; Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 ;;
-;; Guix channel definition for Something's Robofishy
+;; Guix channel definition for Something's [Robo] Fishy
 ;;
 ;; To use this channel, add to ~/.config/guix/channels.scm:
 ;;
 ;;   (channel
-;;     (name 'Something's Robofishy)
-;;     (url "https://github.com/hyperpolymath/Something's Robofishy")
+;;     (name 'Something's [Robo] Fishy)
+;;     (url "https://github.com/hyperpolymath/Something's [Robo] Fishy")
 ;;     (branch "main"))
 ;;
 ;; Then: guix pull
 
 (channel
   (version 0)
-  (url "https://github.com/hyperpolymath/Something's Robofishy")
+  (url "https://github.com/hyperpolymath/Something's [Robo] Fishy")
   (dependencies
    (channel
      (name 'guix)

@@ -5,13 +5,13 @@
 TEMPLATE INSTRUCTIONS (delete this block before publishing)
 ============================================================================
 Replace all {{PLACEHOLDER}} values with your information:
-  Something's Robofishy     - Your project name
+  Something's [Robo] Fishy     - Your project name
   hyperpolymath            - GitHub username or org (e.g., hyperpolymath)
-  somethings-robofishy             - Repository name
+  somethings-fishy             - Repository name
   jonathan.jewell@open.ac.uk   - Security contact email
   {{PGP_FINGERPRINT}}  - Your PGP key fingerprint (40 chars, no spaces)
   {{PGP_KEY_URL}}      - URL to your public PGP key
-  https://github.com/hyperpolymath/somethings-robofishy          - Your website/domain
+  https://github.com/hyperpolymath/somethings-fishy          - Your website/domain
   2026     - Current year for copyright
 
 Optional: Remove sections that don't apply (e.g., PGP if you don't use it)
@@ -40,7 +40,7 @@ We take security seriously. We appreciate your efforts to responsibly disclose v
 
 The preferred method for reporting security vulnerabilities is through GitHub's Security Advisory feature:
 
-1. Navigate to [Report a Vulnerability](https://github.com/hyperpolymath/somethings-robofishy/security/advisories/new)
+1. Navigate to [Report a Vulnerability](https://github.com/hyperpolymath/somethings-fishy/security/advisories/new)
 2. Click **"Report a vulnerability"**
 3. Complete the form with as much detail as possible
 4. Submit — we'll receive a private notification
@@ -203,7 +203,7 @@ If we cannot reach agreement on disclosure timing, we default to 90 days from yo
 
 The following are within scope for security research:
 
-- This repository (`hyperpolymath/somethings-robofishy`) and all its code
+- This repository (`hyperpolymath/somethings-fishy`) and all its code
 - Official releases and packages published from this repository
 - Documentation that could lead to security issues
 - Build and deployment configurations in this repository
@@ -322,7 +322,7 @@ Recognition includes:
 To stay informed about security updates:
 
 - **Watch this repository**: Click "Watch" → "Custom" → Select "Security alerts"
-- **GitHub Security Advisories**: Published at [Security Advisories](https://github.com/hyperpolymath/somethings-robofishy/security/advisories)
+- **GitHub Security Advisories**: Published at [Security Advisories](https://github.com/hyperpolymath/somethings-fishy/security/advisories)
 - **Release notes**: Security fixes noted in [CHANGELOG](CHANGELOG.md)
 
 ### Update Policy
@@ -348,7 +348,7 @@ To stay informed about security updates:
 
 ## Security Best Practices
 
-When using Something's Robofishy, we recommend:
+When using Something's [Robo] Fishy, we recommend:
 
 ### General
 
@@ -371,7 +371,7 @@ When using Something's Robofishy, we recommend:
 ## Additional Resources
 
 - [Our PGP Public Key]({{PGP_KEY_URL}})
-- [Security Advisories](https://github.com/hyperpolymath/somethings-robofishy/security/advisories)
+- [Security Advisories](https://github.com/hyperpolymath/somethings-fishy/security/advisories)
 - [Changelog](CHANGELOG.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [CVE Database](https://cve.mitre.org/)
@@ -383,8 +383,8 @@ When using Something's Robofishy, we recommend:
 
 | Purpose | Contact |
 |---------|---------|
-| **Security issues** | [Report via GitHub](https://github.com/hyperpolymath/somethings-robofishy/security/advisories/new) or jonathan.jewell@open.ac.uk |
-| **General questions** | [GitHub Discussions](https://github.com/hyperpolymath/somethings-robofishy/discussions) |
+| **Security issues** | [Report via GitHub](https://github.com/hyperpolymath/somethings-fishy/security/advisories/new) or jonathan.jewell@open.ac.uk |
+| **General questions** | [GitHub Discussions](https://github.com/hyperpolymath/somethings-fishy/discussions) |
 | **Other enquiries** | See [README](README.md) for contact information |
 
 ---
@@ -399,7 +399,7 @@ This security policy may be updated from time to time. Significant changes will 
 
 ---
 
-*Thank you for helping keep Something's Robofishy and its users safe.* 🛡️
+*Thank you for helping keep Something's [Robo] Fishy and its users safe.* 🛡️
 
 ---
 

@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 # Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
-# Containerfile for Something's Robofishy
-# Build: podman build -t somethings_robofishy:latest -f Containerfile .
-# Run:   podman run --rm -it somethings_robofishy:latest
-# Seal:  selur seal somethings_robofishy:latest
+# Containerfile for Something's [Robo] Fishy
+# Build: podman build -t somethings_fishy:latest -f Containerfile .
+# Run:   podman run --rm -it somethings_fishy:latest
+# Seal:  selur seal somethings_fishy:latest
 
 # --- Build stage ---
 FROM cgr.dev/chainguard/wolfi-base:latest AS build
@@ -30,12 +30,12 @@ FROM cgr.dev/chainguard/static:latest
 # Copy built artifact from build stage
 # TODO: Replace with your binary/artifact path
 # Examples:
-#   COPY --from=build /build/target/release/somethings_robofishy /usr/local/bin/
-#   COPY --from=build /build/_build/prod/rel/somethings_robofishy /app/
-#   COPY --from=build /build/zig-out/bin/somethings_robofishy /usr/local/bin/
+#   COPY --from=build /build/target/release/somethings_fishy /usr/local/bin/
+#   COPY --from=build /build/_build/prod/rel/somethings_fishy /app/
+#   COPY --from=build /build/zig-out/bin/somethings_fishy /usr/local/bin/
 
 # Non-root user (chainguard images default to nonroot)
 USER nonroot
 
 # TODO: Replace with your entrypoint
-# ENTRYPOINT ["/usr/local/bin/somethings_robofishy"]
+# ENTRYPOINT ["/usr/local/bin/somethings_fishy"]

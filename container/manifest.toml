@@ -1,26 +1,26 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 #
-# Cerro Torre manifest for Something's Robofishy .ctp bundle
+# Cerro Torre manifest for Something's [Robo] Fishy .ctp bundle
 #
 # This manifest describes the container image for verified
 # container packaging. Used by `ct pack` to create .ctp bundles.
 
 [metadata]
-name = "somethings-robofishy"
+name = "somethings-fishy"
 version = "0.1.0"
 revision = 1
 summary = "Agent-damage triage tool — checks whether LLM agents have broken a repo"
 description = """
-Something's Robofishy — containerised service packaged as a verified
+Something's [Robo] Fishy — containerised service packaged as a verified
 cerro-torre .ctp bundle with Ed25519 signing and full provenance
 tracking.
 """
 license = "PMPL-1.0-or-later"
-homepage = "https://github.com/hyperpolymath/somethings-robofishy"
+homepage = "https://github.com/hyperpolymath/somethings-fishy"
 maintainer = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
 
 [provenance]
-upstream = "https://github.com/hyperpolymath/somethings-robofishy"
+upstream = "https://github.com/hyperpolymath/somethings-fishy"
 import_date = 2026-04-10T00:00:00Z
 
 [dependencies]
@@ -35,7 +35,7 @@ APP_HOST = "[::]"
 APP_PORT = "8080"
 
 [outputs]
-primary = "somethings-robofishy"
+primary = "somethings-fishy"
 split = []
 
 [attestations]

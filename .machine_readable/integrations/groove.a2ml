@@ -9,8 +9,8 @@
 (groove-manifest
   (version "1.0")
 
-  ; Service identity — replace somethings-robofishy with your project name
-  (service "somethings-robofishy")
+  ; Service identity — replace somethings-fishy with your project name
+  (service "somethings-fishy")
   (service-version "0.1.0")
 
   ; Primary port — MUST be unique across the ecosystem.

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 #
-# Something's Robofishy selur-compose configuration
+# Something's [Robo] Fishy selur-compose configuration
 #
 # Orchestrates the container stack as verified container bundles (.ctp).
 # Uses selur zero-copy IPC between services on the same host.
@@ -10,7 +10,7 @@
 #   selur-compose up --detach            # Start in background
 #   selur-compose verify                 # Verify all .ctp signatures
 #   selur-compose ps                     # Check status
-#   selur-compose logs -f somethings-robofishy  # Stream logs
+#   selur-compose logs -f somethings-fishy  # Stream logs
 #   selur-compose down                   # Stop all services
 #
 # Fallback (when selur is not installed):
@@ -23,8 +23,8 @@ version = "1.0"
 # ============================================================================
 
 # Primary application service
-[services.somethings-robofishy]
-image = "ghcr.io/hyperpolymath/somethings-robofishy:latest.ctp"
+[services.somethings-fishy]
+image = "ghcr.io/hyperpolymath/somethings-fishy:latest.ctp"
 ports = ["8080:8080"]
 environment = {
   APP_HOST = "[::]",
@@ -32,7 +32,7 @@ environment = {
   APP_LOG_FORMAT = "json",
   APP_DATA_DIR = "/data",
 }
-volumes = ["somethings-robofishy-data:/data"]
+volumes = ["somethings-fishy-data:/data"]
 restart = "always"
 healthcheck = { test = "curl -sf http://localhost:8080/health", interval = "30s", timeout = "5s", retries = 3 }
 
@@ -41,12 +41,12 @@ healthcheck = { test = "curl -sf http://localhost:8080/health", interval = "30s"
 image = "ghcr.io/hyperpolymath/svalinn:latest.ctp"
 ports = ["443:443", "80:80"]
 environment = {
-  SVALINN_BACKEND = "http://somethings-robofishy:8080",
+  SVALINN_BACKEND = "http://somethings-fishy:8080",
   SVALINN_POLICY_FILE = "/etc/svalinn/gatekeeper.yaml",
   SVALINN_TLS_AUTO = "true",
 }
 volumes = ["svalinn-config:/etc/svalinn:ro"]
-depends_on = ["somethings-robofishy"]
+depends_on = ["somethings-fishy"]
 restart = "always"
 healthcheck = { test = "curl -sf http://localhost:80/health", interval = "30s", timeout = "5s", retries = 3 }
 
@@ -54,7 +54,7 @@ healthcheck = { test = "curl -sf http://localhost:80/health", interval = "30s", 
 # Volumes
 # ============================================================================
 
-[volumes.somethings-robofishy-data]
+[volumes.somethings-fishy-data]
 driver = "local"
 
 [volumes.svalinn-config]

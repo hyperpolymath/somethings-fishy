@@ -7,14 +7,14 @@
 # applied by the probot/settings app when changes are pushed to the default
 # branch. Install the app at: https://github.com/apps/settings
 #
-# Template file — replace somethings-robofishy and {{DESCRIPTION}} with actual values.
+# Template file — replace somethings-fishy and {{DESCRIPTION}} with actual values.
 
 # ─── Repository Settings ───────────────────────────────────────────────────────
 
 repository:
-  name: "somethings-robofishy"
+  name: "somethings-fishy"
   description: "{{DESCRIPTION}}"
-  homepage: "https://github.com/hyperpolymath/somethings-robofishy"
+  homepage: "https://github.com/hyperpolymath/somethings-fishy"
   private: false
   has_issues: true
   has_projects: true

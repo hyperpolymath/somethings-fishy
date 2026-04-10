@@ -9,7 +9,7 @@ last-updated = "2026-04-10"
 
 [anchor]
 schema = "hyperpolymath.anchor/1"
-repo = "hyperpolymath/somethings-robofishy"
+repo = "hyperpolymath/somethings-fishy"
 authority = "upstream-canonical"
 
 purpose = [
@@ -19,7 +19,7 @@ purpose = [
 ]
 
 [identity]
-project = "Something's Robofishy"
+project = "Something's [Robo] Fishy"
 kind = "{{PROJECT_KIND}}"                # language | library | service | tool
 one-sentence = "Agent-damage triage tool — checks whether LLM agents have broken a repo"
 domain = "{{PROJECT_DOMAIN}}"

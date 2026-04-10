@@ -39,7 +39,7 @@ fail() { red "  FAIL: $1"; FAIL=$((FAIL + 1)); }
 warn() { yellow "  WARN: $1"; WARN=$((WARN + 1)); }
 
 echo "═══════════════════════════════════════════════════════════════"
-echo "  SOMETHINGS_ROBOFISHY — Aspect Tests (Cross-Cutting Concerns)"
+echo "  SOMETHINGS_FISHY — Aspect Tests (Cross-Cutting Concerns)"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 

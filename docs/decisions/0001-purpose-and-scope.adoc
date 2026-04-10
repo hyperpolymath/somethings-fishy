@@ -21,7 +21,7 @@ truth marked by a domain expert.
 
 == Decision
 
-`somethings-robofishy` is an **agent-autopsy forensic tool**, not a general repo
+`somethings-fishy` is an **agent-autopsy forensic tool**, not a general repo
 linter or RSR-compliance checker. Its job is:
 
 . Given a target (a repo, a file set, or an entire estate), identify which

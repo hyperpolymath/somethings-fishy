@@ -119,11 +119,11 @@ find "$TEST_REPO_PATH" -type f \
     -exec bash -c '
         file="$1"
         placeholder_pairs=(
-            "somethings-robofishy|$TEST_REPO_NAME"
+            "somethings-fishy|$TEST_REPO_NAME"
             "hyperpolymath|$TEST_OWNER"
             "github.com|$TEST_FORGE"
-            "SOMETHINGS_ROBOFISHY|$TEST_PROJECT_NAME"
-            "somethings_robofishy|'"${TEST_REPO_NAME//-/_}"'"
+            "SOMETHINGS_FISHY|$TEST_PROJECT_NAME"
+            "somethings_fishy|'"${TEST_REPO_NAME//-/_}"'"
             "{{REPO_DESCRIPTION}}|$TEST_DESCRIPTION"
             "{{PRIMARY_LANGUAGE}}|$TEST_PRIMARY_LANGUAGE"
             "Jonathan D.A. Jewell|$TEST_AUTHOR"

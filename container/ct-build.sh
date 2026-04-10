@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: PMPL-1.0-or-later
 #
-# Something's Robofishy — Cerro Torre build, sign, and verify pipeline
+# Something's [Robo] Fishy — Cerro Torre build, sign, and verify pipeline
 #
 # Builds the container image, packages it as a verified .ctp bundle,
 # signs it with Ed25519, and verifies the result. Gracefully degrades
@@ -18,7 +18,7 @@
 #   CT_KEY_ID=my-key ./ct-build.sh # Use specific signing key
 #
 # Environment variables:
-#   CT_KEY_ID       — Signing key identifier (default: somethings-robofishy-release)
+#   CT_KEY_ID       — Signing key identifier (default: somethings-fishy-release)
 #   CT_REGISTRY     — OCI registry to push to (default: ghcr.io/hyperpolymath)
 #   CT_TAG          — Image tag (default: latest)
 
@@ -38,15 +38,15 @@ for arg in "$@"; do
     fi
 done
 
-CT_KEY_ID="${CT_KEY_ID:-somethings-robofishy-release}"
+CT_KEY_ID="${CT_KEY_ID:-somethings-fishy-release}"
 CT_REGISTRY="${CT_REGISTRY:-ghcr.io/hyperpolymath}"
 CT_TAG="${CT_TAG:-latest}"
 
-IMAGE_NAME="somethings-robofishy"
+IMAGE_NAME="somethings-fishy"
 FULL_IMAGE="${CT_REGISTRY}/${IMAGE_NAME}:${CT_TAG}"
 CTP_FILE="${SCRIPT_DIR}/${IMAGE_NAME}-${CT_TAG}.ctp"
 
-echo "=== Something's Robofishy Cerro Torre Build Pipeline ==="
+echo "=== Something's [Robo] Fishy Cerro Torre Build Pipeline ==="
 echo "  Image:  ${FULL_IMAGE}"
 echo "  Key:    ${CT_KEY_ID}"
 echo "  Bundle: ${CTP_FILE}"

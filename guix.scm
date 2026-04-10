@@ -1,13 +1,13 @@
 ;; SPDX-License-Identifier: PMPL-1.0-or-later
 ;; Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 ;;
-;; Guix package definition for Something's Robofishy
+;; Guix package definition for Something's [Robo] Fishy
 ;;
 ;; Usage:
 ;;   guix shell -D -f guix.scm    # Enter development shell
 ;;   guix build -f guix.scm       # Build package
 ;;
-;; TODO: Replace Something's Robofishy and customize inputs for your language/stack.
+;; TODO: Replace Something's [Robo] Fishy and customize inputs for your language/stack.
 ;; See: https://guix.gnu.org/manual/en/html_node/Defining-Packages.html
 
 (use-modules (guix packages)
@@ -18,7 +18,7 @@
              (gnu packages base))
 
 (package
-  (name "Something's Robofishy")
+  (name "Something's [Robo] Fishy")
   (version "0.1.0")
   (source (local-file "." "source"
                        #:recursive? #t
@@ -63,7 +63,7 @@
    (list
     ;; TODO: Add runtime dependencies
     ))
-  (home-page "https://github.com/hyperpolymath/Something's Robofishy")
+  (home-page "https://github.com/hyperpolymath/Something's [Robo] Fishy")
   (synopsis "Agent-damage triage tool — checks whether LLM agents have broken a repo")
   (description "RSR-compliant project. See README.adoc for details.")
   (license (list

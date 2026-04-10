@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: PMPL-1.0-or-later
 // Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
-= Something's Robofishy — Explainme
+= Something's [Robo] Fishy — Explainme
 :toc:
 :icons: font
 

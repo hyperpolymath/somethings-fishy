@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: PMPL-1.0-or-later
+// Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+= ADR 0002: Turnitin × Autopsy Framing, and the Classifier Architecture
+:toc:
+:icons: font
+
+Status: accepted
+Date: 2026-04-10
+Supersedes: none (extends ADR 0001)
+See also: `ROADMAP.adoc` for the capability ladder
+
+== Context
+
+ADR 0001 framed the project as a forensic agent-autopsy tool. A subsequent
+design conversation sharpened that framing in two important ways:
+
+. The project is deliberately a *counter-example* to perplexity-based
+  "AI text detectors". Those are structurally broken and inspired this
+  project by frustration. We are building the defensible alternative.
+. The target audiences are both *educators* and *developers*. That brings
+  Turnitin into the reference frame, and with it a psychometric standard
+  that a purely engineering-oriented tool could otherwise sidestep.
+
+== Decision
+
+=== Framing
+
+The tool is positioned as a valid-and-reliable hybrid of:
+
+* *Turnitin* — authorship attribution with an accountability audience
+  (educators, academic appeals processes).
+* *Autopsy-style forensics* — reverse reconstruction of what happened in a
+  repo, when, and by whom.
+
+"Valid and reliable" is taken in its psychometric sense, not its casual
+sense. This means the tool commits to:
+
+* *Construct validity*: the classifier measures what it claims to measure,
+  tested against ground-truth scenarios.
+* *Content validity*: the feature set covers the construct broadly enough.
+* *Criterion validity*: flagged findings predict real downstream outcomes.
+* *Test-retest reliability*: same input → same output. Enforced from v0
+  onwards by stable content-addressed finding IDs.
+* *Calibrated confidence*: conformal prediction intervals, not point
+  estimates. Educators in particular get tighter false-positive budgets.
+* *Open-set rejection*: the classifier must be allowed to say "insufficient
+  evidence" and must do so by default when nearest-match confidence is low.
+
+=== Classifier architecture (summary)
+
+Full reasoning lives in ROADMAP v1. Headline decisions:
+
+* Not a single large neural classifier. A pipeline with three feature
+  streams (text/code embeddings, structural vectors, temporal vectors)
+  fused late.
+* Metric learning over prototypes, using a Gaussian distance head. This
+  is the modern neural evolution of the RBF family — prototype networks
+  compute class scores as softmax over negative squared Euclidean
+  distances, equivalent to a learnable RBF kernel classifier.
+* Open-set rejection via distance threshold to nearest prototype.
+* Nearest-neighbour retrieval used at decision time to produce the
+  forensic report's "because these three prior commits match" narrative.
+* Start simpler: v1 uses `linfa-svm` with an RBF kernel on hand-crafted
+  structural + temporal features. Move to prototype networks in v2 once
+  the corpus supports it.
+
+=== Audience split
+
+One detection engine, two audience modes (educator, developer), exposed as
+subcommands or profiles. They share the classifier and the reference corpus
+but differ in:
+
+* Confidence thresholds (educator mode is far more conservative).
+* Report format (educator mode is academic-appeal-defensible; developer
+  mode is triage-oriented).
+* Baseline model (educator mode supports per-student baselines — a
+  one-class detector riding on top of the multi-class engine).
+
+=== What this changes in v0
+
+v0 scope is unchanged in terms of what detectors run, but acquires two new
+requirements:
+
+. *Feature-vector emission alongside findings.* Every shallow-signal
+  scanner must produce both a human-readable finding and a structured
+  feature vector, so v1's classifier can be trained on v0 observations
+  without re-walking the repo.
+. *Stable content-addressed finding IDs.* Every finding carries a
+  deterministic ID derived from `(scanner, target-hash, location, rule)`.
+  This is what makes test-retest reliability verifiable from day one.
+
+=== Explicit anti-patterns
+
+These approaches are rejected:
+
+* *Perplexity-based text detection* — the counter-example that motivated
+  the project. Structurally unsound; trivially bypassed.
+* *Fine-tuned BERT-for-classification head* — fails the open-set and
+  incremental-corpus constraints.
+* *Classical stylometry alone* (Burrows Delta, etc.) — built for novelists,
+  too noisy on structured code.
+* *LLM-as-judge* without non-LLM scoring — creates an indefensible
+  trust-loop.
+* *Binary "is this AI" detection* — rejected framing; the tool attributes
+  to specific agents and can say "unknown".
+
+== Consequences
+
+* The psychometric commitments raise the v1 bar meaningfully: conformal
+  prediction and calibration are not optional.
+* The educator audience forces a per-student baseline subsystem that
+  otherwise would not exist.
+* The per-audience split argues for subcommands or profiles rather than
+  two separate binaries, which keeps the detection core honest and
+  single-source.
+* The v5 pseudointent work is flagged as a genuine research problem, not
+  an engineering sprint. It may require collaboration with the plan
+  recognition / inverse planning literature rather than in-house
+  invention.

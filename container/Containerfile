@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
-# Something's Robofishy Container Image
+# Something's [Robo] Fishy Container Image
 #
 # Multi-stage build template for Chainguard Wolfi base images.
 # Customise the builder stage for your language and copy the
 # resulting binary/release into the minimal runtime stage.
 #
 # Build with Podman:
-#   podman build -t somethings-robofishy:latest -f container/Containerfile .
+#   podman build -t somethings-fishy:latest -f container/Containerfile .
 #
 # Run:
-#   podman run -p 8080:8080 somethings-robofishy:latest
+#   podman run -p 8080:8080 somethings-fishy:latest
 #
 # Run with persistent volume:
-#   podman run -p 8080:8080 -v somethings-robofishy-data:/data somethings-robofishy:latest
+#   podman run -p 8080:8080 -v somethings-fishy-data:/data somethings-fishy:latest
 
 # ============================================================================
 # Stage 1: Builder
@@ -29,7 +29,7 @@
 #   COPY Cargo.toml Cargo.lock ./
 #   COPY src/ ./src/
 #   RUN cargo build --release
-#   # Output: /build/target/release/somethings-robofishy
+#   # Output: /build/target/release/somethings-fishy
 #
 # --- Elixir ---
 #   RUN apk add --no-cache erl27-elixir-1.18 erlang-27 erlang-27-dev git build-base
@@ -39,14 +39,14 @@
 #   ENV MIX_ENV=prod
 #   RUN mix local.hex --force && mix local.rebar --force && \
 #       mix deps.get --only prod && mix compile && mix release
-#   # Output: /build/_build/prod/rel/somethings-robofishy/
+#   # Output: /build/_build/prod/rel/somethings-fishy/
 #
 # --- Zig ---
 #   RUN apk add --no-cache zig build-base
 #   COPY build.zig build.zig.zon ./
 #   COPY src/ ./src/
 #   RUN zig build -Doptimize=ReleaseFast
-#   # Output: /build/zig-out/bin/somethings-robofishy
+#   # Output: /build/zig-out/bin/somethings-fishy
 #
 FROM cgr.dev/chainguard/wolfi-base:latest AS builder
 
@@ -69,10 +69,10 @@ COPY . .
 FROM cgr.dev/chainguard/wolfi-base:latest
 
 # OCI image labels (compatible with cerro-torre .ctp bundle metadata)
-LABEL org.opencontainers.image.title="Something's Robofishy" \
+LABEL org.opencontainers.image.title="Something's [Robo] Fishy" \
       org.opencontainers.image.description="Agent-damage triage tool — checks whether LLM agents have broken a repo" \
-      org.opencontainers.image.url="https://github.com/hyperpolymath/somethings-robofishy" \
-      org.opencontainers.image.source="https://github.com/hyperpolymath/somethings-robofishy" \
+      org.opencontainers.image.url="https://github.com/hyperpolymath/somethings-fishy" \
+      org.opencontainers.image.source="https://github.com/hyperpolymath/somethings-fishy" \
       org.opencontainers.image.vendor="hyperpolymath" \
       org.opencontainers.image.licenses="PMPL-1.0-or-later" \
       org.opencontainers.image.authors="Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>" \
@@ -96,9 +96,9 @@ WORKDIR /app
 
 # TODO: Copy compiled binary/release from builder stage.
 # Examples:
-#   COPY --from=builder /build/target/release/somethings-robofishy /app/somethings-robofishy
-#   COPY --from=builder /build/_build/prod/rel/somethings-robofishy /app/release/
-#   COPY --from=builder /build/zig-out/bin/somethings-robofishy /app/somethings-robofishy
+#   COPY --from=builder /build/target/release/somethings-fishy /app/somethings-fishy
+#   COPY --from=builder /build/_build/prod/rel/somethings-fishy /app/release/
+#   COPY --from=builder /build/zig-out/bin/somethings-fishy /app/somethings-fishy
 
 # Copy entrypoint script
 COPY container/entrypoint.sh /app/entrypoint.sh

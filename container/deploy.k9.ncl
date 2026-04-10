@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
-# deploy.k9.ncl — Something's Robofishy deployment component (Hunt level)
+# deploy.k9.ncl — Something's [Robo] Fishy deployment component (Hunt level)
 #
 # k9-svc deployment specification with full pedigree (L1-L5).
 # Security Level: 'Hunt (requires cryptographic handshake for execution).
@@ -18,11 +18,11 @@ let component_pedigree = {
   # L1: The Snout — Identity
   # ─────────────────────────────────────────────────────────────
   metadata = {
-    name = "somethings-robofishy-deploy",
+    name = "somethings-fishy-deploy",
     version = "0.1.0",
     breed = "application/vnd.k9+nickel",
     magic_number = "K9!",
-    description = "Something's Robofishy deployment component (Hunt level)",
+    description = "Something's [Robo] Fishy deployment component (Hunt level)",
   },
 
   # ─────────────────────────────────────────────────────────────
@@ -93,7 +93,7 @@ let deployment = {
 
   # Container configuration
   container = {
-    image = "ghcr.io/hyperpolymath/somethings-robofishy",
+    image = "ghcr.io/hyperpolymath/somethings-fishy",
     port = 8080,
     health_check = "/health",
     readiness_check = "/ready",
@@ -113,7 +113,7 @@ let scripts = {
   pre_deploy = m%"
 #!/bin/sh
 set -eu
-echo "K9: Pre-deployment validation for somethings-robofishy..."
+echo "K9: Pre-deployment validation for somethings-fishy..."
 cd container && selur-compose verify || podman compose --file compose.toml config
 echo "K9: Validation passed."
 "%,
@@ -123,7 +123,7 @@ echo "K9: Validation passed."
 #!/bin/sh
 set -eu
 ENV="${1:-dev}"
-echo "K9: Deploying somethings-robofishy to $ENV environment..."
+echo "K9: Deploying somethings-fishy to $ENV environment..."
 cd container
 ./ct-build.sh
 selur-compose up --detach || podman compose --file compose.toml up --detach
@@ -134,7 +134,7 @@ echo "K9: Deployment to $ENV complete."
   rollback = m%"
 #!/bin/sh
 set -eu
-echo "K9: Rolling back somethings-robofishy deployment..."
+echo "K9: Rolling back somethings-fishy deployment..."
 cd container
 selur-compose down || podman compose --file compose.toml down
 echo "K9: Rollback complete."

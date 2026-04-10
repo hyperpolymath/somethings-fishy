@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+#
+# somethings-fishy — agent-autopsy forensic triage tool
+#
+# v1 prototype: clones a target into an isolation area, runs a minimal set of
+# shallow-signal scanners, emits an S-expression A2ML report into the scene
+# directory. Never mutates the subject.
+
+[package]
+name = "robofishy"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"]
+license = "PMPL-1.0-or-later"
+description = "Agent-autopsy forensic triage — reverse-constructs which agents edited a repo"
+repository = "https://github.com/hyperpolymath/somethings-fishy"
+readme = "README.adoc"
+keywords = ["forensics", "agent-detection", "repo-audit", "verisimdb"]
+categories = ["command-line-utilities", "development-tools"]
+
+[[bin]]
+name = "robofishy"
+path = "src/main.rs"
+
+[dependencies]
+# CLI — the only user-facing entry point in v1.
+clap = { version = "4.5", features = ["derive"] }
+
+# Error plumbing. Split responsibility: thiserror for typed library errors,
+# anyhow for the binary boundary where we collapse to a user-readable message.
+anyhow = "1.0"
+thiserror = "2.0"
+
+# Filesystem walking that honours .gitignore. Much faster and more predictable
+# than hand-rolled walkdir logic, and critical when targets are large repos.
+ignore = "0.4"
+
+# Pattern matching over file contents. Aho-Corasick handles the many-literal
+# banned-pattern set cheaply; regex is used only where a pattern actually
+# needs structure (e.g. commit-trailer parsing).
+aho-corasick = "1.1"
+regex = "1.10"
+
+# Timestamps for scene directory naming and report metadata.
+# chrono is heavy but well-known; time would also work.
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+
+# SHA-256 for file-identity hashing in the report. Used to distinguish
+# "this file is the stock CLAUDE.md template" from "this file was edited".
+sha2 = "0.10"
+hex = "0.4"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true

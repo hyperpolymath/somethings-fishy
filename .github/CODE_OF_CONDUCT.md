@@ -5,9 +5,9 @@
 TEMPLATE INSTRUCTIONS (delete this block before publishing)
 ============================================================================
 Replace all {{PLACEHOLDER}} values:
-  Something's Robofishy     - Your project name
+  Something's [Robo] Fishy     - Your project name
   hyperpolymath            - GitHub/GitLab username or org
-  somethings-robofishy             - Repository name
+  somethings-fishy             - Repository name
   jonathan.jewell@open.ac.uk    - Email for conduct reports
   Code of Conduct Committee     - Name of conduct team/committee
   48 hours    - Initial response SLA (e.g., 48 hours)
@@ -22,7 +22,7 @@ Review and customise:
 
 ## Our Pledge
 
-We as members, contributors, and leaders pledge to make participation in Something's Robofishy a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, colour, religion, or sexual identity and orientation.
+We as members, contributors, and leaders pledge to make participation in Something's [Robo] Fishy a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, colour, religion, or sexual identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
@@ -310,7 +310,7 @@ We thank these communities for their leadership in creating welcoming spaces.
 
 If you have questions about this Code of Conduct:
 
-- Open a [Discussion](https://github.com/hyperpolymath/somethings-robofishy/discussions) (for general questions)
+- Open a [Discussion](https://github.com/hyperpolymath/somethings-fishy/discussions) (for general questions)
 - Email jonathan.jewell@open.ac.uk (for private questions)
 - Contact any maintainer directly
 

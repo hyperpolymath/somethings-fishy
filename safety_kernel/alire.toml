@@ -1,0 +1,22 @@
+name = "safety_kernel"
+description = "SPARK-proven write-path and clone-destination guards for robofishy"
+version = "0.1.0-dev"
+
+# Estate policy (see /home/hyper/.claude/CLAUDE.md § License Policy):
+# PMPL-1.0-or-later is preferred for hyperpolymath original code; MPL-2.0 is
+# the SPDX-validated fallback used here because Alire's manifest validator
+# does not yet accept PMPL. Source files still carry PMPL-1.0-or-later SPDX
+# headers.
+licenses = "MPL-2.0"
+
+authors = ["Jonathan D.A. Jewell"]
+maintainers = ["Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"]
+maintainers-logins = ["hyperpolymath"]
+website = "https://github.com/hyperpolymath/somethings-fishy"
+tags = ["spark", "safety", "forensics"]
+
+# Hard build deps. gnatprove is required because every build that touches
+# this crate is expected to also discharge its proof obligations; we do not
+# ship the safety kernel without the proof step having run.
+[[depends-on]]
+gnatprove = "^15.1.0"

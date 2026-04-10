@@ -1,13 +1,13 @@
 # Clone the repository
-git clone https://github.com/hyperpolymath/somethings-robofishy.git
-cd somethings-robofishy
+git clone https://github.com/hyperpolymath/somethings-fishy.git
+cd somethings-fishy
 
 # Using Nix (recommended for reproducibility)
 nix develop
 
 # Or using toolbox/distrobox
-toolbox create somethings-robofishy-dev
-toolbox enter somethings-robofishy-dev
+toolbox create somethings-fishy-dev
+toolbox enter somethings-fishy-dev
 # Install dependencies manually
 
 # Verify setup
@@ -17,7 +17,7 @@ just test    # Run test suite
 
 ### Repository Structure
 ```
-somethings-robofishy/
+somethings-fishy/
 ├── src/                 # Source code (Perimeter 1-2)
 ├── lib/                 # Library code (Perimeter 1-2)
 ├── extensions/          # Extensions (Perimeter 2)
@@ -91,10 +91,10 @@ Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md) an
 
 Look for issues labelled:
 
-- [`good first issue`](https://github.com/hyperpolymath/somethings-robofishy/labels/good%20first%20issue) — Simple Perimeter 3 tasks
-- [`help wanted`](https://github.com/hyperpolymath/somethings-robofishy/labels/help%20wanted) — Community help needed
-- [`documentation`](https://github.com/hyperpolymath/somethings-robofishy/labels/documentation) — Docs improvements
-- [`perimeter-3`](https://github.com/hyperpolymath/somethings-robofishy/labels/perimeter-3) — Community sandbox scope
+- [`good first issue`](https://github.com/hyperpolymath/somethings-fishy/labels/good%20first%20issue) — Simple Perimeter 3 tasks
+- [`help wanted`](https://github.com/hyperpolymath/somethings-fishy/labels/help%20wanted) — Community help needed
+- [`documentation`](https://github.com/hyperpolymath/somethings-fishy/labels/documentation) — Docs improvements
+- [`perimeter-3`](https://github.com/hyperpolymath/somethings-fishy/labels/perimeter-3) — Community sandbox scope
 
 ---
 

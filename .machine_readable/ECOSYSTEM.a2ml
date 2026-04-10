@@ -2,7 +2,7 @@
 ;; Ecosystem position and relationships
 (ecosystem
   (version "1.0.0")
-  (name "somethings-robofishy")
+  (name "somethings-fishy")
   (type "library")
   (purpose "{{REPO_DESCRIPTION}}")
   (related-projects))

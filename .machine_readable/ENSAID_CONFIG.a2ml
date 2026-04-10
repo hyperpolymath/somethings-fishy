@@ -89,8 +89,8 @@ version = "1.0.0"
 
 # Example: a custom portfolio for this project
 # [[portfolios.custom]]
-# id = "somethings_robofishy-dev"
-# name = "Something's Robofishy Development"
-# description = "Panels for Something's Robofishy development"
+# id = "somethings_fishy-dev"
+# name = "Something's [Robo] Fishy Development"
+# description = "Panels for Something's [Robo] Fishy development"
 # panels = ["valence-shell", "editor-bridge", "build-dashboard"]
 # default-isolation = "native"

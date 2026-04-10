@@ -62,7 +62,7 @@ skip_test() {
 }
 
 echo "═══════════════════════════════════════════════════════════════"
-echo "  SOMETHINGS_ROBOFISHY — End-to-End Tests"
+echo "  SOMETHINGS_FISHY — End-to-End Tests"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
@@ -122,7 +122,7 @@ echo ""
 # else
 #     STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$VERISIM_URL/api/v1/hexads" \
 #         -H "Content-Type: application/json" \
-#         -d '{"tool":"SOMETHINGS_ROBOFISHY","modality":"document","content":"e2e test"}')
+#         -d '{"tool":"SOMETHINGS_FISHY","modality":"document","content":"e2e test"}')
 #     check_status "hexad POST" "201" "$STATUS"
 # fi
 

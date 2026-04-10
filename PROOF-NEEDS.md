@@ -1,4 +1,4 @@
-# Proof Requirements — SOMETHINGS_ROBOFISHY
+# Proof Requirements — SOMETHINGS_FISHY
 <!-- SPDX-License-Identifier: PMPL-1.0-or-later -->
 <!-- Template: rsr-template-repo/PROOF-NEEDS.md -->
 <!-- Authoritative master list: ~/Desktop/PROOF-REQUIREMENTS-MASTER.md -->

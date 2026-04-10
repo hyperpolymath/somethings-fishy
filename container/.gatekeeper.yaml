@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 #
-# Svalinn gatekeeper policy for Something's Robofishy
+# Svalinn gatekeeper policy for Something's [Robo] Fishy
 #
 # Controls which operations are permitted through the edge gateway.
 # This template provides moderate security defaults — not wide-open test
@@ -65,9 +65,9 @@ rate_limits:
 trust:
   # Only accept .ctp bundles signed by these keys.
   trusted_signers:
-    - key_id: "somethings-robofishy-release"
+    - key_id: "somethings-fishy-release"
       algorithm: "Ed25519"
-      public_key_file: "/etc/svalinn/keys/somethings-robofishy-release.pub"
+      public_key_file: "/etc/svalinn/keys/somethings-fishy-release.pub"
 
   # Require these attestations on all .ctp bundles.
   required_attestations:

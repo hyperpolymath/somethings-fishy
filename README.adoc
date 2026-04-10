@@ -1,24 +1,67 @@
-= RSR Template Repository
+= Something's [Robo] Fishy
 :toc: preamble
 :icons: font
 
-image:https://www.bestpractices.dev/projects/{{OPENSSF_PROJECT_ID}}/badge[OpenSSF Best Practices, link="https://www.bestpractices.dev/projects/{{OPENSSF_PROJECT_ID}}"]
-image:https://api.securityscorecards.dev/projects/github.com/hyperpolymath/somethings-robofishy/badge[OpenSSF Scorecard, link="https://securityscorecards.dev/viewer/?uri=github.com/hyperpolymath/somethings-robofishy"]
+image:https://api.securityscorecards.dev/projects/github.com/hyperpolymath/somethings-fishy/badge[OpenSSF Scorecard, link="https://securityscorecards.dev/viewer/?uri=github.com/hyperpolymath/somethings-fishy"]
 
-[NOTE]
+A valid-and-reliable hybrid of Turnitin-style authorship attribution and
+autopsy-style forensic reconstruction, for repositories. Point it at a repo,
+a file set, or a whole estate — it clones the target, reads it read-only,
+and tells you which agents (Claude, Gemini, Codex, Vibe, …) or humans have
+been operating there, what they did, and what residues they left behind.
+Even when bots act under human accounts without declaring themselves.
+
+Educators and developers both. Educators get per-student baselines and
+conservative false-positive budgets. Developers get estate-scale batch
+forensics and prioritised findings. One detection engine, two audience
+modes.
+
+Inspired by perplexity-based "AI text detectors" being broken by design —
+this is the defensible alternative.
+
+See `ROADMAP.adoc` for the capability ladder (v0 observe → v1 detect → v2
+reverse → v3 repair → v4 multi-agent interaction → v5 pseudointent) and
+`docs/decisions/` for the architectural decisions.
+
+[WARNING]
 ====
-This repository is a template. Placeholder tokens like `hyperpolymath`, `somethings-robofishy`,
-and `Something's Robofishy` are expected before running `just init`.
+v0 (in progress): shallow-signal scanners, clone-first isolation, A2ML
+reports. No classifier yet — that arrives in v1. No remediation. No writes
+to the subject under any circumstances.
 ====
 
-== Overview
+== Hard invariants
 
-This template now uses a split maintenance model:
+. **Touch nothing.** The tool never writes to the subject. Targets are
+  cloned into an isolation area and only the clone is touched.
+. **Single write channel.** Any outbound change proposal is routed through
+  `feedback-o-tron`. The core has no other side-effect path.
+. **Bundled scanners, not reimplemented.** `panic-attack` travels with the
+  tool as a subprocess dependency.
+. **Safe to set loose live.** No destructive operations, no automated
+  remediation in v1. Defensible on a production estate.
 
-* Authoritative session protocols live centrally in `standards/session-management-standards`.
-* This repo keeps only thin local integration (Justfile aliases, local hooks,
-  coordination bindings, and repo-local checks).
-* Runtime session artifacts are generated per working repository in `.session/`.
+== Quickstart (v0 prototype)
+
+[source,shell]
+----
+# Scan a remote repo (clones into /mnt/eclipse/robofishy-scenes/<ts>-<slug>/)
+robofishy scan https://github.com/example/some-repo
+
+# Scan a local path
+robofishy scan /path/to/local/repo
+
+# Skip panic-attack if it's not on PATH
+robofishy scan --skip-panic-attack /path/to/local/repo
+----
+
+The A2ML report path is printed on stdout; the scene directory is logged
+on stderr. Nothing else is written anywhere else.
+
+== Project layout inherited from rsr-template-repo
+
+This repo was bootstrapped from `rsr-template-repo`. Below is the template's
+inherited structure; see the template's own documentation for details.
 
 == Session Management Integration
 

@@ -21,10 +21,10 @@ validates the result, and runs k9-svc checks if available.
 sed -i 's/Jonathan D.A. Jewell/Jane Doe/g' $(grep -rl 'Jonathan D.A. Jewell' .)
 sed -i 's/j.d.a.jewell@open.ac.uk/jane@example.org/g' $(grep -rl 'j.d.a.jewell@open.ac.uk' .)
 sed -i 's/hyperpolymath/my-org/g' $(grep -rl 'hyperpolymath' .)
-sed -i 's/Something's Robofishy/my-project/g' $(grep -rl 'Something's Robofishy' .)
-sed -i 's/SOMETHINGS_ROBOFISHY/MY_PROJECT/g' $(grep -rl 'SOMETHINGS_ROBOFISHY' .)
-sed -i 's/somethings_robofishy/my_project/g' $(grep -rl 'somethings_robofishy' .)
-sed -i 's/somethings-robofishy/my-project/g' $(grep -rl 'somethings-robofishy' .)
+sed -i 's/Something's [Robo] Fishy/my-project/g' $(grep -rl 'Something's [Robo] Fishy' .)
+sed -i 's/SOMETHINGS_FISHY/MY_PROJECT/g' $(grep -rl 'SOMETHINGS_FISHY' .)
+sed -i 's/somethings_fishy/my_project/g' $(grep -rl 'somethings_fishy' .)
+sed -i 's/somethings-fishy/my-project/g' $(grep -rl 'somethings-fishy' .)
 sed -i 's/github.com/github.com/g' $(grep -rl 'github.com' .)
 sed -i "s/2026/$(date +%Y)/g" $(grep -rl '2026' .)
 sed -i "s/2026-04-10/$(date +%Y-%m-%d)/g" $(grep -rl '2026-04-10' .)
@@ -48,11 +48,11 @@ sed -i "s/2026-04-10/$(date +%Y-%m-%d)/g" $(grep -rl '2026-04-10' .)
 
 | Placeholder | Description | Example | Files |
 |---|---|---|---|
-| `Something's Robofishy` | Human-readable project name | `My Project` | SECURITY.md, CODE_OF_CONDUCT.md, TOPOLOGY.md, STATE.a2ml, Justfile, GOVERNANCE.md, MAINTAINERS.md, flake.nix, devcontainer.json |
+| `Something's [Robo] Fishy` | Human-readable project name | `My Project` | SECURITY.md, CODE_OF_CONDUCT.md, TOPOLOGY.md, STATE.a2ml, Justfile, GOVERNANCE.md, MAINTAINERS.md, flake.nix, devcontainer.json |
 | `Agent-damage triage tool — checks whether LLM agents have broken a repo` | One-line description | `A tool for X` | flake.nix |
-| `SOMETHINGS_ROBOFISHY` | Uppercase identifier (for Idris2 modules, C macros) | `MY_PROJECT` | ABI-FFI-README.md, src/interface/abi/*.idr, src/interface/ffi/*.zig |
-| `somethings_robofishy` | Lowercase identifier (for C symbols, filenames) | `my_project` | ABI-FFI-README.md, src/interface/ffi/*.zig |
-| `somethings-robofishy` | Repository name (slug) | `my-project` | CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md, cliff.toml |
+| `SOMETHINGS_FISHY` | Uppercase identifier (for Idris2 modules, C macros) | `MY_PROJECT` | ABI-FFI-README.md, src/interface/abi/*.idr, src/interface/ffi/*.zig |
+| `somethings_fishy` | Lowercase identifier (for C symbols, filenames) | `my_project` | ABI-FFI-README.md, src/interface/ffi/*.zig |
+| `somethings-fishy` | Repository name (slug) | `my-project` | CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md, cliff.toml |
 | `hyperpolymath` | GitHub/GitLab org or username | `my-org` | SPDX headers, CONTRIBUTING.md, SECURITY.md, GOVERNANCE.md, MAINTAINERS.md, CODEOWNERS, mirror.yml, cliff.toml |
 | `github.com` | Git forge domain | `github.com` | CONTRIBUTING.md |
 
@@ -71,7 +71,7 @@ sed -i "s/2026-04-10/$(date +%Y-%m-%d)/g" $(grep -rl '2026-04-10' .)
 | `jonathan.jewell@open.ac.uk` | Security contact email | `security@example.org` | SECURITY.md |
 | `{{PGP_FINGERPRINT}}` | 40-char PGP fingerprint | `ABCD 1234 ...` | SECURITY.md |
 | `{{PGP_KEY_URL}}` | URL to public PGP key | `https://keys.openpgp.org/...` | SECURITY.md |
-| `https://github.com/hyperpolymath/somethings-robofishy` | Project website | `https://example.org` | SECURITY.md |
+| `https://github.com/hyperpolymath/somethings-fishy` | Project website | `https://example.org` | SECURITY.md |
 | `jonathan.jewell@open.ac.uk` | Conduct reports email | `conduct@example.org` | CODE_OF_CONDUCT.md |
 | `Code of Conduct Committee` | Conduct committee name | `Code of Conduct Committee` | CODE_OF_CONDUCT.md |
 | `48 hours` | SLA for initial response | `48 hours` | CODE_OF_CONDUCT.md |

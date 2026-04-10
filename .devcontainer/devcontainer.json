@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: PMPL-1.0-or-later
 // Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 //
-// Dev Container configuration for Something's Robofishy
+// Dev Container configuration for Something's [Robo] Fishy
 // Works with: VS Code Dev Containers, GitHub Codespaces, Gitpod
 // Container runtime: Podman (recommended) or any OCI-compliant runtime
 {
-  "name": "Something's Robofishy",
+  "name": "Something's [Robo] Fishy",
 
   "build": {
     "dockerfile": "Containerfile",

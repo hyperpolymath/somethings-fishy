@@ -1,34 +1,34 @@
-= Something's Robofishy - Citation Guide
+= Something's [Robo] Fishy - Citation Guide
 :toc:
 
 == BibTeX
 
 [source,bibtex]
 ----
-@software{Something's Robofishy_2026,
+@software{Something's [Robo] Fishy_2026,
   author = {Jewell, Jonathan D.A.},
-  title = {Something's Robofishy},
+  title = {Something's [Robo] Fishy},
   year = {2026},
-  url = {https://github.com/hyperpolymath/Something's Robofishy},
+  url = {https://github.com/hyperpolymath/Something's [Robo] Fishy},
   license = {PMPL-1.0-or-later}
 }
 ----
 
 == Harvard Style
 
-Jewell, J. (2026) _Something's Robofishy_ [Computer software]. Available at: https://github.com/hyperpolymath/Something's Robofishy
+Jewell, J. (2026) _Something's [Robo] Fishy_ [Computer software]. Available at: https://github.com/hyperpolymath/Something's [Robo] Fishy
 
 == OSCOLA
 
-Jonathan D.A. Jewell, 'Something's Robofishy' (2026) <https://github.com/hyperpolymath/Something's Robofishy>
+Jonathan D.A. Jewell, 'Something's [Robo] Fishy' (2026) <https://github.com/hyperpolymath/Something's [Robo] Fishy>
 
 == MLA
 
-Jewell, Jonathan D.A. "Something's Robofishy." 2026, github.com/hyperpolymath/Something's Robofishy.
+Jewell, Jonathan D.A. "Something's [Robo] Fishy." 2026, github.com/hyperpolymath/Something's [Robo] Fishy.
 
 == APA 7
 
-Jewell, J. (2026). _Something's Robofishy_ [Computer software]. GitHub. https://github.com/hyperpolymath/Something's Robofishy
+Jewell, J. (2026). _Something's [Robo] Fishy_ [Computer software]. GitHub. https://github.com/hyperpolymath/Something's [Robo] Fishy
 
 == See Also
 
