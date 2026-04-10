@@ -82,6 +82,12 @@ jobs:
 
       - name: Submit findings to gitbot-fleet (Phase 2)
         if: steps.scan.outputs.findings_count > 0
+        # The gitbot-fleet submit-finding.sh script tries to `git add`
+        # shared-context/findings, which is gitignored in its own repo
+        # -- the add fails and the step exits nonzero even when hypatia
+        # itself ran cleanly. That is an upstream gitbot-fleet bug; we
+        # don't want it to fail the whole Hypatia Security Scan job.
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

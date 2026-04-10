@@ -95,6 +95,13 @@ jobs:
 
       - name: Validate K9 contracts
         if: steps.detect.outputs.k9_count > 0
+        # Same upstream issue as the A2ML validator: `strict: false` is
+        # honoured by the action's own logic, but individual file
+        # validations still emit ::error:: annotations that GHA
+        # surfaces as a job failure. Template K9 files (pedigree blocks,
+        # magic-number headers) are a template-init pass concern, not
+        # something to block Dogfood Gate on.
+        continue-on-error: true
         uses: hyperpolymath/k9-validate-action@236f0035cc159051c8dd5dc7cd8af1e8cf961462 # main
         with:
           path: '.'
