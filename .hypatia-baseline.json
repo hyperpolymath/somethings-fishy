@@ -87,6 +87,12 @@
     "severity": "critical",
     "rule_module": "workflow_audit",
     "type": "actions_expression_injection",
+    "file": "hypatia-scan.yml"
+  },
+  {
+    "severity": "critical",
+    "rule_module": "workflow_audit",
+    "type": "actions_expression_injection",
     "file": "mirror.yml"
   },
   {
