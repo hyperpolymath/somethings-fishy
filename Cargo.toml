@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
 # somethings-fishy — agent-autopsy forensic triage tool
@@ -13,7 +13,7 @@ version = "0.1.0"
 edition = "2021"
 rust-version = "1.75"
 authors = ["Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"]
-license = "PMPL-1.0-or-later"
+license = "MPL-2.0"
 description = "Agent-autopsy forensic triage — reverse-constructs which agents edited a repo"
 repository = "https://github.com/hyperpolymath/somethings-fishy"
 readme = "README.adoc"

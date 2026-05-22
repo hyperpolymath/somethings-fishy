@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: PMPL-1.0-or-later
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 //
 // A2ML forensic report emission.
@@ -41,7 +41,7 @@ pub fn write_a2ml(
 /// classifier produces confidence intervals and per-agent attribution.
 fn render(target: &str, clone_path: &Path, findings: &FindingSet) -> String {
     let mut out = String::new();
-    out.push_str(";; SPDX-License-Identifier: PMPL-1.0-or-later\n");
+    out.push_str(";; SPDX-License-Identifier: MPL-2.0\n");
     out.push_str(";; robofishy forensic report\n");
     out.push_str("(robofishy-report\n");
     out.push_str(&format!("  (version \"{VERSION}\")\n"));

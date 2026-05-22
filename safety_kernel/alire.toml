@@ -3,9 +3,9 @@ description = "SPARK-proven write-path and clone-destination guards for robofish
 version = "0.1.0-dev"
 
 # Estate policy (see /home/hyper/.claude/CLAUDE.md § License Policy):
-# PMPL-1.0-or-later is preferred for hyperpolymath original code; MPL-2.0 is
+# MPL-2.0 is preferred for hyperpolymath original code; MPL-2.0 is
 # the SPDX-validated fallback used here because Alire's manifest validator
-# does not yet accept PMPL. Source files still carry PMPL-1.0-or-later SPDX
+# does not yet accept PMPL. Source files still carry MPL-2.0 SPDX
 # headers.
 licenses = "MPL-2.0"
 

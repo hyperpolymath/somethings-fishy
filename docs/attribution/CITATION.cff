@@ -9,7 +9,7 @@ version: 0.1.0
 date-released: 2026-04-10
 url: "https://github.com/hyperpolymath/somethings-fishy"
 repository-code: "https://github.com/hyperpolymath/somethings-fishy"
-license: PMPL-1.0-or-later
+license: MPL-2.0
 keywords:
   - "rsr"
   - "formal-verification"

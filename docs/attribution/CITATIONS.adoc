@@ -10,7 +10,7 @@
   title = {Something's [Robo] Fishy},
   year = {2026},
   url = {https://github.com/hyperpolymath/Something's [Robo] Fishy},
-  license = {PMPL-1.0-or-later}
+  license = {MPL-2.0}
 }
 ----
 
