@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: MPL-2.0
+#
+# .trusted-base-ignore — path-fragment exemptions for check-trusted-base.sh.
+#
+# Format (matches .hypatia-ignore):
+#   - Lines starting with `#` are comments.
+#   - Each non-comment, non-blank line is a path-fragment substring that
+#     exempts every escape-hatch marker whose file path contains the fragment.
+#
+# See: standards/docs/TRUSTED-BASE-REDUCTION-POLICY.adoc (standards#223 added
+# this exemption mechanism).
+
+# ─── Scanner detector + test code ───────────────────────────────────────
+# The banned-pattern scanner has to mention the patterns it detects;
+# the test fixture has to include the pattern under test. Both are
+# scanner-self-reference false positives, not real unsafe code.
+src/scanners/banned_patterns.rs
+tests/scanners.rs
