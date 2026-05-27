@@ -89,6 +89,7 @@ const PATTERNS: &[Pattern] = &[
         feature: "sorry",
         severity: Severity::Notice,
     },
+    // TRUSTED: detector pattern table; the string literal matches itself in self-scans (false positive).
     // Haskell / OCaml unsafe coercions.
     Pattern {
         needle: "unsafeCoerce",
