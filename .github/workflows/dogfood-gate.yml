@@ -47,7 +47,7 @@ jobs:
         # the operator's auto-memory) is the right place to ensure all
         # .a2ml files carry proper identity blocks.
         continue-on-error: true
-        uses: hyperpolymath/a2ml-validate-action@59145c7d1039fa3059b3ecacdb50ee23d7505898 # main
+        uses: hyperpolymath/a2ml-validate-action@6bff6ec134fc977e86d25166a5c522ddea5c1e78 # main
         with:
           path: '.'
           strict: 'false'
