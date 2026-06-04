@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 = Something's [Robo] Fishy — Explainme
+image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[License: MPL-2.0,link="https://opensource.org/licenses/MPL-2.0"]
+
 :toc:
 :icons: font
 
@@ -54,3 +56,10 @@ A small number of template placeholders were not resolved by `just init`
 (known template gap — affects 18 files including `.github/settings.yml`,
 anchor files, and template standards audits). These will be cleared in a
 follow-up pass and are tracked alongside other initialisation hygiene.
+
+
+== License
+
+This project is licensed under the Mozilla Public License, v. 2.0. See the `LICENSE` file for details.
+
+SPDX-License-Identifier: MPL-2.0
