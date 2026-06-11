@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: MPL-2.0
+// Owner: Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 # Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
 # RSR Standard Justfile Template
@@ -499,8 +500,8 @@ self-assess:
         echo "    ready for automated maintenance when the fleet arrives."
     fi
 
-    if [ -d ".machine_readable/agent_instructions" ]; then
-        echo "  ◆ agent_instructions/ — AI agent methodology config."
+    if [ -d ".machine_readable/bot_directives" ]; then
+        echo "  ◆ bot_directives/ — AI agent methodology config."
         echo "    Guides Claude/Gemini/etc on how to work in this repo."
         echo "    No cost to keep. Improves AI assistance quality."
     fi
@@ -797,7 +798,6 @@ deps-audit:
     #   cargo audit
     #   mix audit
     @command -v trivy >/dev/null && trivy fs --severity HIGH,CRITICAL --quiet . || true
-    @command -v gitleaks >/dev/null && gitleaks detect --source . --no-git --quiet || true
     @echo "Audit complete"
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1032,7 +1032,6 @@ install-hooks:
 # Run security audit
 security: deps-audit
     @echo "=== Security Audit ==="
-    @command -v gitleaks >/dev/null && gitleaks detect --source . --verbose || true
     @command -v trivy >/dev/null && trivy fs --severity HIGH,CRITICAL . || true
     @echo "Security audit complete"
 
@@ -1542,3 +1541,6 @@ handover-model path=".":
 
 handover-human path=".":
     @./session/dispatch.sh handover human "{{path}}"
+
+secret-scan-trufflehog:
+    @command -v trufflehog >/dev/null && trufflehog filesystem . --only-verified || true
