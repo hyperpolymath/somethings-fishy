@@ -78,6 +78,7 @@ fn banned_patterns_detects_unsafe_coerce_and_ts_ignore() {
     write(
         root,
         "lib/dangerous.hs",
+        // TRUSTED: test fixture intentionally containing the banned pattern for detector coverage.
         "import Unsafe.Coerce\n\nfoo = unsafeCoerce 1\n",
     );
     write(root, "app/legacy.ts", "// @ts-ignore\nconst x: any = 1;\n");
