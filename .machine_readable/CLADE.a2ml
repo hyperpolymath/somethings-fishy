@@ -5,11 +5,11 @@
 name = "somethings-fishy"
 
 [identity]
-uuid = "a5ea1382-a34c-5334-8a46-a2ebe904c810"
+uuid = "4e9efc40-5b2e-5f01-afe1-abc2c40b3d56"
 primary-forge = "github"
 primary-owner = "hyperpolymath"
-canonical-name = "rsr-template-repo"
-prefixed-name = "rm-rsr-template-repo"
+canonical-name = "somethings-fishy"
+prefixed-name = "rm-somethings-fishy"
 
 [clade]
 primary = "rm"
@@ -18,9 +18,9 @@ assigned = "2026-03-16"
 rationale = ""
 
 [forges]
-github = "hyperpolymath/rsr-template-repo"
-gitlab = "hyperpolymath/rsr-template-repo"
-bitbucket = "hyperpolymath/rsr-template-repo"
+github = "hyperpolymath/somethings-fishy"
+gitlab = "hyperpolymath/somethings-fishy"
+bitbucket = "hyperpolymath/somethings-fishy"
 
 [lineage]
 type = "standalone"
