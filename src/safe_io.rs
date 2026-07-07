@@ -16,9 +16,9 @@
 // must treat it as "do not rely on this path".
 //
 // The Ada side requires one-time elaboration (`Safety_Kernelinit`) before
-// any call; we perform that in `SafeIO::init()` and unwind in `Drop`.
-// Rust's ownership model gives us a natural lifetime for this resource:
-// one `SafeIO` per process, held for the duration of a scan.
+// any call; `SafeIO::init()` performs it exactly once per process (via
+// `std::sync::Once`) and the runtime is never finalized — see the note
+// on the extern block below.
 
 use std::ffi::c_void;
 use std::os::raw::{c_int, c_ulong};
@@ -29,15 +29,19 @@ use std::path::Path;
 // ---------------------------------------------------------------------
 
 extern "C" {
-    // GNAT elaboration/finalization entry points for a standalone
-    // library built with `Library_Standalone => "encapsulated"` and
-    // `Library_Auto_Init => "false"`. The capitalization matches the
-    // symbol GNAT actually emits (`Safety_Kernelinit`).
+    // GNAT elaboration entry point for a standalone library built with
+    // `Library_Standalone => "standard"` and `Library_Auto_Init =>
+    // "false"`. The capitalization matches the symbol GNAT actually
+    // emits (`Safety_Kernelinit`).
+    //
+    // There is a matching `Safety_Kernelfinal`, deliberately unused:
+    // finalizing the Ada runtime while any other thread can still call
+    // into the kernel makes that call raise, and an Ada exception
+    // crossing the C boundary aborts the process ("Rust cannot catch
+    // foreign exceptions"). Elaboration is one-way per process; the OS
+    // reclaims everything at exit.
     #[link_name = "Safety_Kernelinit"]
     fn safety_kernel_init();
-
-    #[link_name = "Safety_Kernelfinal"]
-    fn safety_kernel_final();
 
     // The C-ABI export from `Robofishy_C_API`. Returns 1 on success,
     // 0 on any failure (bounds violation, path-outside-scene rejection,
@@ -58,8 +62,9 @@ extern "C" {
 // Safe Rust wrapper.
 // ---------------------------------------------------------------------
 
-/// Handle to the initialised Ada safety kernel. Construct once per
-/// process; drop releases the Ada runtime.
+/// Handle to the initialised Ada safety kernel. Cheap to construct
+/// from any thread; elaboration runs exactly once per process (see
+/// [`SafeIO::init`]).
 #[derive(Debug)]
 pub struct SafeIO {
     // Prevent direct construction from outside this module — callers
@@ -89,14 +94,22 @@ pub enum SafeWriteError {
 }
 
 impl SafeIO {
-    /// Initialise the Ada safety kernel. Must be called exactly once
-    /// per process, before any [`SafeIO::write`] call.
+    /// Initialise the Ada safety kernel. Safe to call any number of
+    /// times from any thread: GNAT elaboration runs exactly once per
+    /// process, and the runtime is never finalized while the process
+    /// lives.
+    ///
+    /// (The previous design finalized the runtime in `Drop`, which let
+    /// one handle's teardown finalize the Ada runtime out from under
+    /// concurrent users — e.g. parallel test threads — and the
+    /// resulting Ada exception aborted the process at the FFI
+    /// boundary.)
     pub fn init() -> Self {
+        static ELABORATE: std::sync::Once = std::sync::Once::new();
         // SAFETY: `safety_kernel_init` is the GNAT-emitted elaboration
-        // wrapper. It is idempotent enough that a second call is a
-        // no-op, but we rely on callers to construct `SafeIO` only
-        // once per process lifetime.
-        unsafe { safety_kernel_init() };
+        // wrapper; `Once` guarantees it runs exactly once, before any
+        // `write` can be reached through a constructed handle.
+        ELABORATE.call_once(|| unsafe { safety_kernel_init() });
         SafeIO { _private: () }
     }
 
@@ -145,13 +158,6 @@ impl SafeIO {
         } else {
             Err(SafeWriteError::Rejected)
         }
-    }
-}
-
-impl Drop for SafeIO {
-    fn drop(&mut self) {
-        // SAFETY: symmetric to `init`; called once per `SafeIO`.
-        unsafe { safety_kernel_final() };
     }
 }
 

@@ -12,8 +12,12 @@
 // FFI wrapper cannot bypass the SPARK-proven Is_Inside check even when
 // asked nicely.
 //
-// Cargo runs each integration test file as its own binary, so GNAT
-// elaboration happens exactly once in this process.
+// The three tests here run as parallel threads in one test binary, and
+// each constructs its own SafeIO — safe because SafeIO::init() runs
+// GNAT elaboration exactly once per process and never finalizes the
+// runtime. (The old Drop-finalizes design made this suite abort
+// intermittently: one thread's teardown finalized the Ada runtime
+// under another thread's in-flight call.)
 
 use robofishy::safe_io::{SafeIO, SafeWriteError};
 use std::fs;

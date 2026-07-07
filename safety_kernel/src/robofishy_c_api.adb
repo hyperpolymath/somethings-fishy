@@ -11,7 +11,6 @@
 --  and the "no write escapes scene root" property holds.
 
 with Ada.Unchecked_Conversion;
-with Interfaces.C;
 with Robofishy_Write_Guard;
 
 package body Robofishy_C_API is
@@ -75,10 +74,15 @@ package body Robofishy_C_API is
             Payload    => Payload,
             Success    => Success);
          return (if Success then 1 else 0);
-      exception
-         when others =>
-            return 0;
       end;
+   exception
+      --  Nothing may propagate across the C boundary: an Ada exception
+      --  unwinding into Rust aborts the whole process ("Rust cannot
+      --  catch foreign exceptions"). The handler sits at function level
+      --  so it also covers exceptions raised while elaborating the
+      --  declare block above — an inner-block handler does not.
+      when others =>
+         return 0;
    end Safe_Write;
 
 end Robofishy_C_API;
