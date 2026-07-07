@@ -13,7 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      # Presence gate (hypatia WF017): on repos where the secret hasn't
+      # been propagated the dispatch would fail every push — skip cleanly
+      # instead. The `secrets` context is NOT available in step-level
+      # `if:` (a workflow-file parse error), so a probe step reads the
+      # secret via env and publishes a presence boolean to GITHUB_OUTPUT.
+      - name: Check dispatch token presence
+        id: token
+        env:
+          FARM_DISPATCH_TOKEN: ${{ secrets.FARM_DISPATCH_TOKEN }}
+        run: |
+          if [ -n "$FARM_DISPATCH_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::FARM_DISPATCH_TOKEN not configured — skipping forge propagation"
+          fi
       - name: Trigger Propagation
+        if: steps.token.outputs.present == 'true'
         uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v3
         with:
           token: ${{ secrets.FARM_DISPATCH_TOKEN }}

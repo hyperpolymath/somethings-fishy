@@ -2,26 +2,24 @@
 ;; Project state — update throughout each session
 (state
   (metadata
-    (version "1.0.1")
-    (project "rsr-template-repo")
-    (last-updated "2026-04-04"))
+    (version "0.1.0")
+    (project "somethings-fishy")
+    (last-updated "2026-07-07"))
   (project-context
-    (description "RSR Standard Repository Template — baseline for all hyperpolymath projects")
-    (primary-language "Idris2 (ABI) + Zig (FFI)")
-    (status "testing-complete"))
+    (description "Agent-autopsy forensic triage — reverse-constructs which agents edited a repo")
+    (primary-language "Rust (core) + Ada/SPARK (safety kernel)")
+    (status "v0-observe"))
   (current-position
-    (phase "testing")
-    (completion-percentage 100)
-    (milestone "CRG C - Testing & Benchmarking complete"))
+    (phase "implementation")
+    (completion-percentage 70)
+    (milestone "v0 Observe — shallow-signal scanners, clone-first isolation, A2ML reports"))
   (testing-summary
-    (validation-script "scripts/validate-template.sh: PASS (0 errors)")
-    (workflow-tests "tests/workflows/validate_workflows_test.sh: PASS (21/21 workflows)")
-    (integration-tests "test/integration_test.zig: PASS (placeholder template)")
-    (e2e-tests "tests/e2e/template_instantiation_test.sh: READY")
-    (benchmarks "benches/template_bench.sh: PASS (5 suites)")
-    (zig-build "Zig 0.15.2 compatible: PASS"))
+    (unit-tests "cargo test: 9 passing (scanners + SPARK guard boundary)")
+    (spark-guard-tests "tests/spark_guard_reject.rs: 3 passing (inside/outside/prefix-confusion)")
+    (proof-discharge "gnatprove on safety_kernel: see PROOF-STATUS.md")
+    (e2e-tests "tests/e2e.sh via .github/workflows/e2e.yml"))
   (critical-next-actions
-    ("Commit test suite"
-     "Push to GitHub"
-     "Verify CI workflows pass"
-     "Document test instantiation patterns")))
+    ("Reach CRG B: deploy on 6+ diverse external targets, feed issues back"
+     "v1 Detect: feature extraction + RBF classifier with open-set rejection"
+     "VeriSimDB wiring (agent_reference_corpus, investigation_evidence)"
+     "Crime-scene declaration syntax (A2ML)")))

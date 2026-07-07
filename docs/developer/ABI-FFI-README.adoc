@@ -19,7 +19,7 @@ This library follows the **Hyperpolymath RSR Standard** for ABI and FFI design:
 ```
 ┌─────────────────────────────────────────────┐
 │  ABI Definitions (Idris2)                   │
-│  src/abi/                                   │
+│  src/interface/Abi/                                   │
 │  - Types.idr      (Type definitions)        │
 │  - Layout.idr     (Memory layout proofs)    │
 │  - Foreign.idr    (FFI declarations)        │
@@ -201,7 +201,7 @@ zig build test                    # Run tests
 ### Generate C Header from Idris2 ABI
 
 ```bash
-cd src/abi
+cd src/interface/Abi
 idris2 --cg c-header Types.idr -o ../../generated/abi/somethings_fishy.h
 ```
 
@@ -351,14 +351,14 @@ main = do
 
 When modifying the ABI/FFI:
 
-1. **Update ABI first** (`src/abi/*.idr`)
+1. **Update ABI first** (`src/interface/Abi/*.idr`)
    - Modify type definitions
    - Update proofs
    - Ensure backward compatibility
 
 2. **Generate C header**
    ```bash
-   idris2 --cg c-header src/abi/Types.idr -o generated/abi/somethings_fishy.h
+   idris2 --cg c-header src/interface/Abi/Types.idr -o generated/abi/somethings_fishy.h
    ```
 
 3. **Update FFI implementation** (`ffi/zig/src/main.zig`)

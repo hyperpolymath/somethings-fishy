@@ -18,8 +18,14 @@ project Safety_Kernel is
    --  safety_kernelfinal entry points that wrap Ada elaboration for
    --  non-Ada callers. Rust calls safety_kernelinit() once at startup
    --  before any Ada code runs.
+   --
+   --  "standard" rather than "encapsulated": gprbuild only permits an
+   --  encapsulated standalone library when Library_Kind is relocatable,
+   --  and this archive must stay static so build.rs can link it into the
+   --  robofishy binary. The GNAT runtime symbols an encapsulated build
+   --  would have bundled are supplied by build.rs linking libgnat.
    for Library_Interface use ("Robofishy_Write_Guard", "Robofishy_IO", "Robofishy_C_API");
-   for Library_Standalone use "encapsulated";
+   for Library_Standalone use "standard";
    for Library_Auto_Init use "false";
 
    package Compiler is

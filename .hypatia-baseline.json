@@ -190,5 +190,54 @@
     "rule_module": "workflow_audit",
     "type": "unsafe_curl_payload",
     "file": "hypatia-scan.yml"
+  },
+  {
+    "severity": "high",
+    "rule_module": "code_safety",
+    "type": "ada_unchecked_conversion",
+    "file": "safety_kernel/src/robofishy_c_api.adb",
+    "note": "Deliberate FFI glue: C pointer-length pairs to Ada Strings. Package is SPARK_Mode Off trusted boundary; proof obligations start at Safe_Write."
+  },
+  {
+    "severity": "medium",
+    "rule_module": "code_safety",
+    "type": "expect_in_hot_path",
+    "file": "src/scanners/banned_patterns.rs",
+    "note": "expect() on compile of static, test-covered patterns; infallible at runtime."
+  },
+  {
+    "severity": "medium",
+    "rule_module": "code_safety",
+    "type": "expect_in_hot_path",
+    "file": "src/scanners/commit_trailers.rs",
+    "note": "expect() on compile of a static regex; infallible at runtime."
+  },
+  {
+    "severity": "medium",
+    "rule_module": "code_safety",
+    "type": "unsafe_block",
+    "file": "src/safe_io.rs",
+    "note": "FFI seam to the SPARK-verified safety kernel; each unsafe block carries a SAFETY comment."
+  },
+  {
+    "severity": "medium",
+    "rule_module": "code_safety",
+    "type": "as_ptr",
+    "file": "src/safe_io.rs",
+    "note": "Borrowed slices passed across the C ABI; Ada side copies before use, does not retain pointers."
+  },
+  {
+    "severity": "medium",
+    "rule_module": "scorecard",
+    "type": "DependencyPinning",
+    "file": ".",
+    "note": "All live action uses are SHA-pinned; scorecard counts commented-out template examples in release.yml."
+  },
+  {
+    "severity": "medium",
+    "rule_module": "git_state",
+    "type": "GS007",
+    "file": ".",
+    "note": "Transient non-main branches from dependabot and estate sweeps; policy finding flaps as PRs open/close."
   }
 ]

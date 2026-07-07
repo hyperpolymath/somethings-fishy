@@ -1,14 +1,70 @@
 # SPDX-License-Identifier: MPL-2.0
-# Rust CI — thin wrapper calling the shared estate reusable in
-# hyperpolymath/standards. Configure once, propagate everywhere.
-# See: docs/CI-REUSABLE-WORKFLOWS.adoc in standards.
+# Rust CI — bespoke for this repo, NOT the estate rust-ci reusable.
+#
+# build.rs links the SPARK-verified Ada safety_kernel into the crate, so
+# every cargo invocation needs GNAT + gprbuild on PATH first. The estate
+# reusable (standards/rust-ci-reusable.yml) has no hook for installing
+# system toolchains, and its own header lists cross-toolchain setups as
+# out-of-scope-per-repo — hence this bespoke workflow. e2e.yml shares the
+# same Alire install steps.
+#
+# Alire 2.1.0 is installed directly from the GitHub release (SHA256
+# verified) instead of via the setup-alire action: a pinned release zip
+# is auditable and does not track moving tags.
 name: Rust CI
 on:
   push:
     branches: [main, master]
   pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
-  rust-ci:
-    uses: hyperpolymath/standards/.github/workflows/rust-ci-reusable.yml@412a7031577112b31ee287cc6060179d638d6500
+  check:
+    name: Cargo check + clippy + fmt + test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Install Alire 2.1.0
+        run: |
+          set -euo pipefail
+          ALIRE_URL="https://github.com/alire-project/alire/releases/download/v2.1.0/alr-2.1.0-bin-x86_64-linux.zip"
+          ALIRE_SHA256="e3b32cb0afe981b23d1a68da77452cf81ee1d82de8ebaf01c5e233be8b463fbe"
+          curl -fsSL "$ALIRE_URL" -o /tmp/alr.zip
+          echo "$ALIRE_SHA256  /tmp/alr.zip" | sha256sum -c -
+          mkdir -p "$HOME/.alire"
+          unzip -q /tmp/alr.zip -d "$HOME/.alire"
+          echo "$HOME/.alire/bin" >> "$GITHUB_PATH"
+
+      - name: Select GNAT toolchain via Alire
+        run: alr -n toolchain --disable-assistant --select gnat_native gprbuild
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@4be9e76fd7c4901c61fb841f559994984270fce7 # stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache cargo registry and build
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2
+
+      - name: Cargo check
+        # `--locked` so CI honours Cargo.lock and surfaces dependency
+        # drift on the first push rather than silently re-resolving.
+        run: cargo check --locked --all-targets
+
+      - name: Cargo fmt
+        run: cargo fmt --all -- --check
+
+      - name: Cargo clippy
+        run: cargo clippy --locked --all-targets -- -D warnings
+
+      - name: Cargo test
+        run: cargo test --locked --all-targets
