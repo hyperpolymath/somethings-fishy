@@ -43,8 +43,13 @@ fn main() {
     // Step 1: build the safety kernel via Alire. The user's interactive
     // shell has already done this during development, but build.rs must
     // not assume that.
+    // `static-pic`: the Rust toolchain links a position-independent
+    // executable by default, so plain `static` Ada objects fail the
+    // final link with R_X86_64_32 relocation errors. gprbuild reads
+    // this external from the environment.
     let alr_status = Command::new("alr")
         .args(["-n", "build"])
+        .env("SAFETY_KERNEL_LIBRARY_TYPE", "static-pic")
         .current_dir(&safety_kernel_dir)
         .status()
         .expect("failed to invoke `alr build`; is Alire installed?");
@@ -80,19 +85,19 @@ fn main() {
 
     // Step 3: emit cargo link directives.
     //
-    // The safety kernel is built with `Library_Standalone => "encapsulated"`,
-    // which means libSafety_Kernel.a bundles everything it needs from the
-    // Ada runtime — so in principle we should not need `-lgnat`. In
-    // practice Linux static linking still wants the GNAT runtime archive
-    // alongside for symbols the encapsulation doesn't cover (thread-local
-    // support, some exception handling paths), so we add it defensively.
+    // The safety kernel is a `Library_Standalone => "standard"` static
+    // archive (gprbuild only allows "encapsulated" for relocatable
+    // libraries), so the GNAT runtime is not bundled — link it
+    // explicitly. `gnat_pic` rather than `gnat`: every object in the
+    // link must be position-independent to satisfy Rust's default PIE
+    // executable.
     println!(
         "cargo:rustc-link-search=native={}",
         safety_kernel_lib.display()
     );
     println!("cargo:rustc-link-search=native={adalib_path}");
     println!("cargo:rustc-link-lib=static=Safety_Kernel");
-    println!("cargo:rustc-link-lib=static=gnat");
+    println!("cargo:rustc-link-lib=static=gnat_pic");
 
     // System libraries GNAT binds to. These are almost universally needed
     // when linking any Ada program, even a trivial one.

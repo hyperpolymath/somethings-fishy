@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: MPL-2.0
+# Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+#
+# STATE.a2ml — Project state checkpoint
+#
+# This is the STATE file for somethings-fishy (robofishy).
+
+[metadata]
+project = "somethings-fishy"
+version = "0.1.0"
+last-updated = "2026-07-07"
+status = "active"  # active | paused | archived
+
+[project-context]
+name = "somethings-fishy"
+purpose = "Agent-autopsy forensic triage — a valid-and-reliable hybrid of Turnitin-style authorship attribution and autopsy-style forensic reconstruction for repositories. Reverse-constructs which agents (Claude, Gemini, Codex, Vibe, …) or humans operated in a repo, in clone-first isolation, with a SPARK-proven write guard."
+completion-percentage = 70
+
+[position]
+phase = "implementation"   # design | implementation | testing | maintenance | archived
+maturity = "alpha"         # experimental | alpha | beta | production | lts
+
+[route-to-mvp]
+milestones = [
+  { name = "v0 Observe: shallow-signal scanners, clone-first isolation, A2ML reports", completion = 90 },
+  { name = "SPARK safety kernel: proved write-path guard linked into the binary", completion = 100 },
+  { name = "CRG B: 6+ diverse external targets tested, issues fed back", completion = 0 },
+  { name = "v1 Detect: feature extraction + RBF classifier, open-set rejection, conformal prediction", completion = 0 },
+  { name = "v1 VeriSimDB wiring (agent_reference_corpus, investigation_evidence)", completion = 0 },
+  { name = "v2 Reverse: reversal proposals via feedback-o-tron", completion = 0 },
+]
+
+[blockers-and-issues]
+# No active blockers
+
+[critical-next-actions]
+actions = [
+  "Deploy on 6+ diverse external targets for CRG B evidence",
+  "v1 Detect: crime-scene declaration syntax (A2ML) + labelled corpus",
+  "VeriSimDB schemas for reference corpus and investigation evidence",
+  "Keep hypatia baseline current as scanners grow",
+]
+
+[maintenance-status]
+last-run-utc = "never"
+last-report = "docs/reports/maintenance/latest.json"
+last-result = "unknown"  # unknown | pass | warn | fail
+open-warnings = 0
+open-failures = 0
+
+[ecosystem]
+part-of = ["RSR Framework"]
+depends-on = ["panic-attack (subprocess)", "feedback-o-tron (v2+)", "verisimdb (v1+)"]

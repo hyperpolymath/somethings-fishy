@@ -346,7 +346,7 @@ verify-template:
     fi
 
     # Check for empty SCM files
-    for f in .machine_readable/6a2/STATE.a2ml .machine_readable/6a2/META.a2ml .machine_readable/6a2/ECOSYSTEM.a2ml; do
+    for f in .machine_readable/descriptiles/STATE.a2ml .machine_readable/descriptiles/META.a2ml .machine_readable/descriptiles/ECOSYSTEM.a2ml; do
         if [ -f "$f" ] && grep -q '{{'{{'}}' "$f" 2>/dev/null; then
             echo "⚠ $f still has template placeholders"
             FOUND=1
@@ -404,10 +404,10 @@ self-assess:
         fi
     done
 
-    if [ -d ".machine_readable/6a2" ]; then
-        echo "  ✓ .machine_readable/6a2/ — KEEP (SCM checkpoint files)"
+    if [ -d ".machine_readable/descriptiles" ]; then
+        echo "  ✓ .machine_readable/descriptiles/ — KEEP (SCM checkpoint files)"
     else
-        echo "  ✗ .machine_readable/6a2/ — MISSING (RSR violation!)"
+        echo "  ✗ .machine_readable/descriptiles/ — MISSING (RSR violation!)"
     fi
 
     if [ -d ".github/workflows" ]; then

@@ -103,7 +103,7 @@ just validate-rsr
 |`AI.a2ml`
 |Claude-specific instructions
 
-|`src/abi/`
+|`src/interface/Abi/`
 |Idris2 ABI definitions (Types, Layout, Foreign)
 
 |`ffi/zig/`
@@ -179,7 +179,7 @@ project/
 │   ├── TOPOLOGY-GUIDE.adoc
 │   ├── generated/
 │   └── man/
-├── src/abi/                   # Idris2 ABI definitions
+├── src/interface/Abi/                   # Idris2 ABI definitions
 │   ├── Types.idr
 │   ├── Layout.idr
 │   └── Foreign.idr

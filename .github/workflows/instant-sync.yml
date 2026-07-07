@@ -13,7 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      # Presence gate (hypatia WF017): on repos where the secret hasn't
+      # been propagated the dispatch would fail every push — skip cleanly
+      # instead. Secrets are readable in step-level `if` (not job-level).
       - name: Trigger Propagation
+        if: ${{ secrets.FARM_DISPATCH_TOKEN != '' }}
         uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v3
         with:
           token: ${{ secrets.FARM_DISPATCH_TOKEN }}
