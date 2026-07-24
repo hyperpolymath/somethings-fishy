@@ -43,7 +43,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # Alire provides GNAT+gprbuild for the SPARK safety_kernel that
       # build.rs links into the crate; cargo will fail without it.
       # See rust-ci.yml for the rationale behind installing Alire 2.1.0
@@ -155,7 +155,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: dtolnay/rust-toolchain@4be9e76fd7c4901c61fb841f559994984270fce7  # stable
   #     - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4  # v2
   #     - run: cargo build --release
@@ -168,7 +168,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: goto-bus-stop/setup-zig@abea47f85e598557f500fa1fd2ab7464fcb39406  # v2.2.1
   #       with:
   #         version: 0.15.0
@@ -181,7 +181,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93  # v1.24.0
   #       with:
   #         otp-version: '27.0'
@@ -195,7 +195,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282  # v2.0.4
   #       with:
   #         deno-version: v2.x
@@ -213,7 +213,7 @@ jobs:
   #     matrix:
   #       project: [chromium-1080p, firefox-1080p, webkit-1080p]
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282  # v2.0.4
   #       with:
   #         deno-version: v2.x
@@ -233,7 +233,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: haskell-actions/setup@cd0d9bdd65b20557f41bea4dbe43d0b5fbbfe553  # v2.11.0
   #       with:
   #         ghc-version: '9.6'
@@ -249,7 +249,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 10
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - run: bash tests/aspect_tests.sh
 
   # ─── Benchmarks ────────────────────────────────────────────────────
@@ -261,7 +261,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: dtolnay/rust-toolchain@4be9e76fd7c4901c61fb841f559994984270fce7  # stable
   #     - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4  # v2
   #     - run: cargo bench 2>&1 | tee /tmp/bench-results.txt
@@ -278,7 +278,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: goto-bus-stop/setup-zig@abea47f85e598557f500fa1fd2ab7464fcb39406  # v2.2.1
   #       with:
   #         version: 0.15.0
@@ -292,7 +292,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 10
   #   steps:
-  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
   #     - uses: dtolnay/rust-toolchain@4be9e76fd7c4901c61fb841f559994984270fce7  # stable
   #     - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4  # v2
   #     - run: cargo test --test readiness -- --nocapture
