@@ -8,7 +8,8 @@ on:
 
 permissions:
   contents: read
-
+  security-events: write
+  id-token: write
 jobs:
   scorecard:
     # The reusable's scorecard job needs these; a caller job must grant
