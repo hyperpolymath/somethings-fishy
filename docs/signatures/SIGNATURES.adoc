@@ -1,0 +1,144 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+= Observed agent-failure signatures
+:toc: left
+:sectnums:
+
+Corpus entries. See `README.adoc` for the method and the entry shape.
+
+== SIG-001 — lost-work: generator ran in a throwaway clone, output never committed
+
+*Class:* lost-work / orphaned-generator-output
+
+*Signature:* an agent runs a multi-stage generator (mint → provision →
+configure → harness) inside a *non-canonical* clone, reports success with
+genuine tool output, and never stages, commits or pushes; the clone is later
+deleted, so the work exists only in the agent's transcript.
+
+*Observed:* 2026-06-28/29, Antigravity (Gemini) session, repository
+`boj-server-cartridges` at the non-canonical path
+`~/developer/repos/boj/boj-server-cartridges`; cartridges
+`cartridges/domains/research/notebooks-mcp` and `…/visualization-mcp`.
+The transcript (`…/.gemini/antigravity/brain/<id>/.system_generated/logs/transcript_full.jsonl`)
+holds the real `provision.sh … --granted Net,Fs` and harness lines
+(`ok cap-bounded: valid partition (… inertness 0.6)`) and no `git add`,
+`commit` or `push`. On 2026-09-03 the parent directory was replaced by a
+single `DO-NOT-USE.md` tombstone. No copy survives in any clone, stash, worktree
+or on the Windows side (measured 2026-09-07).
+
+*Residue (repository side):* none in the canonical repository — that is the
+point. Residue is *environmental*: a tombstone file where a clone used to be,
+and transcript command lines naming paths that no longer exist.
+
+*Residue (transcript side):* `"CommandLine"` values with a repository path
+that is not the canonical clone, followed by success output, with no
+`git (add|commit|push)` command line in the same session.
+
+*Detection recipe:*
+
+[source,bash]
+----
+# paths an agent session touched that no longer exist
+/usr/bin/grep -a -o '"CommandLine":"[^"]*' transcript_full.jsonl \
+  | /usr/bin/grep -o '/home/[^ "&;|]*' | sort -u \
+  | while read -r p; do [ -e "$p" ] || echo "MISSING $p"; done
+# sessions that generated but never committed
+/usr/bin/grep -a -c -E '"CommandLine":"[^"]*(mint|provision|harness)' transcript_full.jsonl
+/usr/bin/grep -a -c -E '"CommandLine":"[^"]*git (add|commit|push)'        transcript_full.jsonl
+----
+
+A session with the first count > 0 and the second = 0 is a candidate.
+
+*Mechanisable:* partly — needs transcript access; the repository-side half is
+only the tombstone. Proposed dimension: `orphaned_generator_sessions`.
+
+== SIG-002 — fabricated side-effect: "I have logged this to <vendor>" with no tool call
+
+*Class:* fabricated-side-effect / claimed-telemetry (transcript-side)
+
+*Signature:* assistant prose asserts an external action (logged, reported,
+filed, pushed, submitted) in a turn that contains no tool call capable of it.
+
+*Observed:* 2026-06-28, same Antigravity session: "I have logged this
+feedback to Google DeepMind" (twice), no tool invocation in either turn; the
+only mechanism on offer was the IDE's own transcript flag. Same session, the
+opposite case also occurred: the agent said "I have not pushed them" about
+three issue drafts, and the *human* posted them within four minutes (see
+SIG-003) — so the claim polarity must be checked against tool calls, not
+trusted either way.
+
+*Residue:* transcript-side only: an assistant message matching the claim
+verbs with zero `tool_call`/`"CommandLine"` entries between it and the
+previous user message.
+
+*Detection recipe (predicate):* for each assistant turn `t`,
+`claim(t) := text(t) ~ /\bI (have|'ve) (logged|reported|filed|pushed|submitted|sent)\b/`
+and `acts(t) := count(tool calls in t) = 0`; flag `claim ∧ acts`.
+
+*Mechanisable:* yes, on transcripts. Proposed dimension:
+`unbacked_action_claims`.
+
+== SIG-003 — prose-into-form: agent-drafted issue text pasted into a forge issue *form*
+
+*Class:* forge-object malformation / template mismatch
+
+*Signature:* issues created minutes apart whose title is exactly the issue
+form's title prefix (e.g. `[Feature]:`) or a one-line summary, body content in
+the wrong form fields, later closed and re-filed under correct templates.
+
+*Observed:* 2026-06-28 15:35–15:39Z, `hyperpolymath/boj-server` issues
+#262, #263, #264 — #264's title is the bare prefix `[Feature]:`; all three
+closed and re-filed 2026-07-09 as #275/#276/#277 under epic #274 with a
+provenance note.
+
+*Residue:* forge-side, fully observable through the API: empty-prefix titles,
+tight creation clustering, closed-then-re-filed pairs.
+
+*Detection recipe:*
+
+[source,bash]
+----
+gh issue list -R OWNER/REPO --state all --limit 500 --json number,title,createdAt,state \
+  | jq -r '.[] | select(.title | test("^\\[[A-Za-z ]+\\]:\\s*$")) | "\(.number) \(.createdAt) \(.title)"'
+----
+
+Pair hits with other issues created within ±5 minutes by the same author.
+
+*Mechanisable:* yes (forge API). Proposed dimension:
+`empty_form_title_issues`.
+
+== SIG-004 — substring excision inside an identifier
+
+*Class:* blanking-sweep / term-excision
+
+*Signature:* a banned term (`tsc`, `deno`, `typescript`, `rescript`) is
+deleted *case-insensitively as a substring*, mutilating identifiers that merely
+contain it; the rest of the line is byte-identical.
+
+*Observed:* 2026-09-07 (uncommitted, present since the early-September sweep),
+`hyperpolymath/feedback-o-tron`, `elixir-mcp/ARCHITECTURE.md:87`:
+`gh:affectsComponent` → `gh:affecomponent` (`tsC` excised). Same working
+tree: `.editorconfig` indent blocks stripped. Both revert with `git restore`.
+
+*Residue:* in `git diff`, a −/+ line pair where
+`lower(minus) with term removed == lower(plus)`.
+
+*Detection recipe:*
+
+[source,bash]
+----
+git diff -U0 | python3 -c '
+import sys,re
+terms=("typescript","rescript","deno","tsc")
+lines=sys.stdin.read().splitlines(); prev=None
+for l in lines:
+    if l.startswith("-") and not l.startswith("---"): prev=l[1:]; continue
+    if l.startswith("+") and not l.startswith("+++") and prev is not None:
+        for t in terms:
+            if re.sub(t,"",prev,flags=re.I)==l[1:] and prev.lower()!=l[1:].lower():
+                print("EXCISION",t,repr(prev),"->",repr(l[1:]))
+        prev=None
+'
+----
+
+*Mechanisable:* yes. Proposed dimension: `term_excision_pairs`
+(complements the whole-line-deletion class already recorded in agent memory).
