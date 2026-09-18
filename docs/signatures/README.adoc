@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+= Signature corpus — method
+:toc: left
+
+This directory is the empirical corpus behind the v1 "detect" rung of the
+ladder (v0 observe → v1 detect → v2 reverse → v3 repair → v4 multi-agent →
+v5 pseudointent). Every entry in `SIGNATURES.adoc` is an *observation* of a
+real agent-inflicted residue in a named repository on a stated date, never a
+hypothetical, and never a remediation (the tool's invariant is *touch nothing*).
+
+== Entry shape
+
+Each entry carries, in this order:
+
+. a stable id (`SIG-NNN`) and a class;
+. the signature in one line;
+. the observed instance: date, repository, file or forge object;
+. the residue — what a read-only scanner can actually see;
+. a detection recipe: a command or predicate, not a description;
+. whether it is mechanisable, and the proposed `feature_vector.ncl` dimension.
+
+An entry whose residue cannot be observed from the subject (only from an
+agent's own transcript) is marked *transcript-side* and kept because the tool
+may be pointed at IDE transcript directories as well as at repositories.
+
+== Conventions
+
+* Real AsciiDoc bodies (the estate `.md`→`.adoc` gate checks the extension only).
+* SPDX header on line 1.
+* Never push to main: branch + PR, and no commit without the owner's go-ahead.
