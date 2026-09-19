@@ -7,13 +7,13 @@
 # applied by the probot/settings app when changes are pushed to the default
 # branch. Install the app at: https://github.com/apps/settings
 #
-# Template file — replace somethings-fishy and {{DESCRIPTION}} with actual values.
+# Template file — replace somethings-fishy and Agent-autopsy forensic triage — reverse-constructs which agents edited a repo with actual values.
 
 # ─── Repository Settings ───────────────────────────────────────────────────────
 
 repository:
   name: "somethings-fishy"
-  description: "{{DESCRIPTION}}"
+  description: "Agent-autopsy forensic triage — reverse-constructs which agents edited a repo"
   homepage: "https://github.com/hyperpolymath/somethings-fishy"
   private: false
   has_issues: true
