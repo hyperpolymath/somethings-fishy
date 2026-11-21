@@ -139,8 +139,9 @@ const PATTERNS: &[Pattern] = &[
     // borrow-checker issues. `unsafe` alone is too noisy; we catch the
     // specific abuses.
     Pattern {
+        // hypatia: allow code_safety/transmute -- Search term stored as data.
         needle: "std::mem::transmute",
-        rule: "rust_transmute",
+        rule: "rust_transmute", // hypatia: allow code_safety/transmute -- Rule and feature are report IDs.
         feature: "rust_transmute",
         severity: Severity::Strong,
     },
